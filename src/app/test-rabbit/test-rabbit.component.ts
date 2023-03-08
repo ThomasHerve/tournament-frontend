@@ -7,20 +7,15 @@ import { RabbitService } from '../rabbit/rabbit.service';
   styleUrls: ['./test-rabbit.component.scss']
 })
 export class TestRabbitComponent implements OnInit {
-  
-  // User input
-  textToSend: string = ""
-
 
   constructor(private rabbitService:RabbitService) { 
-
+    
   }
 
   ngOnInit(): void {
-  }
-
-  sendToRabbit(): void {
-    this.rabbitService.send(this.textToSend);
+    this.rabbitService.subscribe("/queue/test", (body: any)=>{
+        console.log(body);
+    })
   }
 
 }
