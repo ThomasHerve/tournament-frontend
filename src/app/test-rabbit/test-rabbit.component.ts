@@ -13,7 +13,7 @@ export class TestRabbitComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rabbitService.subscribe("/queue/test", (body: any)=>{
+    this.rabbitService.subscribe("/exchange/lobby/123", (body: any)=>{
         console.log(body);
     })
   }
