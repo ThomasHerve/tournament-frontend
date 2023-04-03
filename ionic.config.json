@@ -1,0 +1,7 @@
+{
+  "name": "tournament-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

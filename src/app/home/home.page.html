@@ -1,0 +1,42 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title class="ion-text-center main-title">Jeu multijoueur</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="container">
+		<p>
+			Bienvenue sur notre jeu multijoueur en ligne ! Rejoignez d'autres joueurs pour jouer ensemble et gagner des récompenses. Pour commencer, veuillez vous connecter ou vous inscrire.
+		</p>
+
+	</div>
+
+	<ion-accordion-group value="Lobby">
+		<ion-accordion value="Lobby">
+			<ion-item slot="header"
+				color="light">
+				<ion-label>
+					Create or Join a game !
+				</ion-label>
+			</ion-item>
+			<div class="ion-padding"
+				slot="content">
+				<app-create-lobby></app-create-lobby>
+			</div>
+		</ion-accordion>
+		<ion-accordion value="third">
+			<ion-item slot="header"
+				color="light">
+				<ion-label>
+					Create new contents !
+				</ion-label>
+			</ion-item>
+			<div class="ion-padding"
+				slot="content">
+				<app-create-custom></app-create-custom>
+			</div>
+		</ion-accordion>
+	</ion-accordion-group>
+
+</ion-content>

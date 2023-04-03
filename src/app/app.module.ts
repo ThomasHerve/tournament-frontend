@@ -1,18 +1,17 @@
-import { NgModule } from '@angular/core';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { LobbyComponent } from './lobby/lobby.component';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { NgModule } from '@angular/core';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LobbyComponent
+    LobbyComponent,
   ],
   imports: [
     BrowserModule,
@@ -21,6 +20,5 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     SocketIoModule.forRoot(config),
   ],
   providers: [],
-  bootstrap: [AppComponent]
 })
 export class AppModule { }
