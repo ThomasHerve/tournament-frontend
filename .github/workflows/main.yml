@@ -36,5 +36,8 @@ jobs:
     - name: Build the Docker image
       run: docker buildx build --pull --allow security.insecure --platform=linux/amd64,linux/arm64,linux/armhf -t ${{secrets.DOCKER_LOGIN}}/tournament-frontend --output type=registry .
         
+    - name: update docker compose
+      run: docker -H ssh://odroid@${{secrets.ODROID_IP}} compose pull
+
     - name: deploy docker compose
       run: docker -H ssh://odroid@${{secrets.ODROID_IP}} compose up -d
