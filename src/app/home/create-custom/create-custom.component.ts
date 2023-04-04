@@ -26,6 +26,7 @@ export class CreateCustomComponent implements OnInit {
     this.auth = getAuth();
 
     this.registerForm = this.fb.group({
+      username: ['', Validators.compose([Validators.required, (Validators.pattern(/^[^@]+$/))])],
       email: ['', Validators.compose([Validators.required, Validators.email])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
     });

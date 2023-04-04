@@ -1,7 +1,7 @@
 import { EntryDTO } from "./entryDTO";
 
 export class TournamentDTO {
-
+  id: Number
   title: string
   description: string
   icon: string
@@ -10,6 +10,7 @@ export class TournamentDTO {
   entries: Array<EntryDTO> = new Array;
 
   constructor() {
+    this.id = -1
     this.title = "default"
     this.description = "i am a default tournament"
     this.icon = "default image"

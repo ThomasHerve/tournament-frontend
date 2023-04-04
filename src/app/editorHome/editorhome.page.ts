@@ -1,30 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
 
-import { BuilderPage } from '../builder.page';
-import { EntryDTO } from '../DTO/entryDTO';
+import { CommonModule } from '@angular/common';
+import { EntryDTO } from '../editor/DTO/entryDTO';
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { TournamentDTO } from '../DTO/tournamentDTO';
+import { Router } from '@angular/router';
+import { TournamentDTO } from '../editor/DTO/tournamentDTO';
 import { actionSheetController } from '@ionic/core';
 
 @Component({
-  selector: 'app-picker',
-  templateUrl: './picker.component.html',
-  styleUrls: ['./picker.component.scss'],
+  selector: 'app-editorhome',
+  templateUrl: './editorhome.page.html',
+  styleUrls: ['./editorhome.page.scss'],
   standalone: true,
-  imports: [IonicModule, NgIf, NgForOf]
+  imports: [IonicModule, CommonModule, FormsModule,]
 })
-export class PickerComponent implements OnInit {
+export class EditorHomePage implements OnInit {
 
   ownedDescriptors = Array();
   localDescriptor: TournamentDTO | null = null;
 
-  constructor() {
-
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
-    const json = localStorage.getItem('currentScenario');
+    const json = localStorage.getItem('localTournament');
     if (json)
       this.localDescriptor = JSON.parse(json);
 
@@ -37,19 +37,18 @@ export class PickerComponent implements OnInit {
 
 
   newTournament() {
-    const newdto = new TournamentDTO;
-    newdto.entries.push(new EntryDTO)
-    newdto.entries.push(new EntryDTO)
-    newdto.entries.push(new EntryDTO)
-
-    BuilderPage._tournament = newdto;
+    this.router.navigateByUrl('/Editor/New');
   }
 
   newSharedTournament() {
   }
 
+  loadLocalTournament() {
+    this.router.navigateByUrl('/Editor/Local');
+  }
+
   loadTournament(dto: TournamentDTO) {
-    BuilderPage._tournament = dto;
+    this.router.navigateByUrl('/Editor/' + dto.id);
   }
 
 
@@ -74,5 +73,6 @@ export class PickerComponent implements OnInit {
   deleteTournament(tdto: TournamentDTO) {
 
   }
+
 
 }

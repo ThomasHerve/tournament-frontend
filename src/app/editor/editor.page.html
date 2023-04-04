@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+	<ion-toolbar>
+		<ion-title>editor</ion-title>
+
+		<ion-buttons slot="start">
+			<ion-back-button default-href="#"></ion-back-button>
+			<ion-button (click)="saveInCloud()">
+				<ion-icon slot="icon-only"
+					name="save-outline"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+	<ion-card class="cardtitle">
+		<ion-grid>
+			<ion-row>
+				<ion-col size="3">
+					<ion-img [src]="tournament.icon"></ion-img>
+				</ion-col>
+				<ion-col>
+					<ion-input [(ngModel)]="tournament.title"
+						label="Title"
+						labelPlacement="stacked"
+						id="title"></ion-input>
+					<ion-input [(ngModel)]="tournament.icon"
+						label="Icon"
+						labelPlacement="stacked"
+						id="icon"></ion-input>
+					<ion-input [ngModel]="tournament.creator"
+						label="Creator"
+						labelPlacement="stacked"
+						readonly
+						id="title"></ion-input>
+					<ion-textarea [(ngModel)]="tournament.description"
+						label="Description"
+						labelPlacement="stacked"
+						id="description"></ion-textarea>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-card>
+
+	<ion-card *ngFor="let entry of tournament.entries; let i=index"
+		class="entryCard">
+		<ion-card-content>
+			<ion-grid>
+				<ion-row>
+					<ion-col size="2">
+						<ion-img [src]="entry.url"
+							style="height: 160px;"></ion-img>
+					</ion-col>
+					<ion-col>
+						<ion-input [(ngModel)]="entry.name"
+							label="Name"
+							labelPlacement="floating"
+							id="name"></ion-input>
+						<ion-input [(ngModel)]="entry.url"
+							label="Image"
+							labelPlacement="floating"
+							id="image"></ion-input>
+					</ion-col>
+					<ion-col class="minusCol"
+						size="1">
+						<ion-button (click)="removeEntry(i)"
+							shape="round">
+							<ion-icon slot="icon-only"
+								size="large"
+								name="remove-circle-outline"></ion-icon>
+						</ion-button>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-card-content>
+
+	</ion-card>
+
+	<ion-card (click)="addEntry()"
+		class="cardplus">
+		<ion-icon name="add"></ion-icon>
+	</ion-card>
+</ion-content>
