@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CreateCustomComponent } from './create-custom/create-custom.component';
+import { CreateEditorComponent } from './create-editor/create-editor.component';
 import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
 import { IonicModule } from '@ionic/angular';
 
@@ -8,7 +8,7 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CreateCustomComponent, CreateLobbyComponent],
+  imports: [IonicModule, CreateEditorComponent, CreateLobbyComponent],
 })
 export class HomePage {
   constructor() { }

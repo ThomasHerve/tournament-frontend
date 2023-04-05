@@ -9,12 +9,12 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-create-custom',
-  templateUrl: './create-custom.component.html',
-  styleUrls: ['./create-custom.component.scss'],
+  templateUrl: './create-editor.component.html',
+  styleUrls: ['./create-editor.component.scss'],
   standalone: true,
   imports: [IonicModule, FormsModule, ReactiveFormsModule, RouterModule, NgIf],
 })
-export class CreateCustomComponent implements OnInit {
+export class CreateEditorComponent implements OnInit {
 
   registerForm: FormGroup;
   loginForm: FormGroup;

@@ -17,6 +17,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <ion-grid>
 	<!-- ion-row>
 		<ion-col>
@@ -74,18 +90,26 @@
 
 
 
+
+
+
+
+
+
+
 	<ion-row>
 		<ion-col>
 			<ion-card>
-				<ion-title>Login</ion-title>
+				<ion-card-header>
+					<ion-card-title>Login</ion-card-title>
+					<ion-card-subtitle>
+						Already have an account ?
+					</ion-card-subtitle>
+				</ion-card-header>
 				<ion-card-content>
 					<form [formGroup]="loginForm"
 						(ngSubmit)="loginForm.valid && login(loginForm.controls['email'].value, loginForm.controls['password'].value)"
 						novalidate>
-						<ion-label>
-							Already have an account ?
-						</ion-label>
-						<br>
 						<ion-item>
 							<ion-input label="E-mail"
 								labelPlacement="floating"
@@ -103,6 +127,40 @@
 							Login
 						</ion-button>
 					</form>
+					<ion-item class="recoveryText">
+						<ion-label id="click-trigger">
+							Forgot your password ?
+						</ion-label>
+					</ion-item>
+					<ion-modal #recoveryModal
+						trigger="click-trigger"
+						triggerAction="click">
+						<ng-template>
+							<ion-card>
+								<ion-header>
+									<ion-toolbar>
+										<ion-title>Reset password</ion-title>
+										<ion-buttons slot="end">
+											<ion-button (click)="recoveryModal.dismiss()">Close</ion-button>
+										</ion-buttons>
+									</ion-toolbar>
+								</ion-header>
+								<form [formGroup]="passwordRecoveryForm"
+									(ngSubmit)="passwordRecovery(passwordRecoveryForm.controls['email'].value)">
+									<ion-item>
+										<ion-input label="E-mail"
+											labelPlacement="floating"
+											formControlName="email"></ion-input>
+									</ion-item>
+									<ion-button [disabled]="!passwordRecoveryForm.valid"
+										expand="block"
+										type="submit">
+										Reset my password
+									</ion-button>
+								</form>
+							</ion-card>
+						</ng-template>
+					</ion-modal>
 				</ion-card-content>
 			</ion-card>
 		</ion-col>
@@ -111,16 +169,25 @@
 
 
 
+
+
+
+
+
+
+
+
 		<ion-col>
 			<ion-card>
-				<ion-title>Register</ion-title>
+				<ion-card-header>
+					<ion-card-title>Register</ion-card-title>
+					<ion-card-subtitle>
+						Create a new account ?
+					</ion-card-subtitle>
+				</ion-card-header>
 				<ion-card-content>
 					<form [formGroup]="registerForm"
 						(ngSubmit)="register(registerForm.controls['email'].value, registerForm.controls['password'].value)">
-						<ion-label>
-							Create a new account ?
-						</ion-label>
-						<br>
 						<ion-item>
 							<ion-input label="Username"
 								labelPlacement="floating"
@@ -154,34 +221,10 @@
 
 
 
-	<ion-row>
-		<ion-col>
-			<ion-card>
-				<ion-title>
-					Reset password with e-mail
-				</ion-title>
-				<ion-card-content>
-					<form [formGroup]="passwordRecoveryForm"
-						(ngSubmit)="passwordRecovery(passwordRecoveryForm.controls['email'].value)">
-						<ion-item>
-							<ion-input label="E-mail"
-								labelPlacement="floating"
-								formControlName="email"></ion-input>
-						</ion-item>
-						<ion-button [disabled]="!passwordRecoveryForm.valid"
-							expand="block"
-							type="submit">
-							Reset my password
-						</ion-button>
-					</form>
-				</ion-card-content>
-			</ion-card>
-		</ion-col>
 
 
 
 
-	</ion-row>
 
 
 
