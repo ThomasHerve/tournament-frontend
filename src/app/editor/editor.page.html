@@ -2,6 +2,7 @@
 	<ion-toolbar>
 		<ion-title>editor</ion-title>
 
+
 		<ion-buttons slot="start">
 			<ion-back-button default-href="#"></ion-back-button>
 			<ion-button (click)="saveInCloud()">
@@ -9,8 +10,12 @@
 					name="save-outline"></ion-icon>
 			</ion-button>
 		</ion-buttons>
+		<ion-buttons slot="end">
+			<app-user></app-user>
+		</ion-buttons>
 	</ion-toolbar>
 </ion-header>
+
 
 <ion-content fullscreen="true">
 	<ion-card class="cardtitle">
@@ -41,6 +46,7 @@
 			</ion-row>
 		</ion-grid>
 	</ion-card>
+
 
 	<ion-card *ngFor="let entry of tournament.entries; let i=index"
 		class="entryCard">
@@ -74,7 +80,9 @@
 			</ion-grid>
 		</ion-card-content>
 
+
 	</ion-card>
+
 
 	<ion-card (click)="addEntry()"
 		class="cardplus">

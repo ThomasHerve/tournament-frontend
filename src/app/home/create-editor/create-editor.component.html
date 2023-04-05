@@ -10,93 +10,7 @@
 </ion-card>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <ion-grid>
-	<!-- ion-row>
-		<ion-col>
-			<ion-card>
-				<ion-title>
-					Use a Third-party credential
-				</ion-title>
-				<ion-card-content>
-					<ion-buttons>
-						<ion-grid>
-							<ion-row no-padding
-								justify-content-start
-								align-items-start>
-								<ion-col></ion-col>
-								<ion-col>
-									<ion-button (click)="loginWithGoogle()"
-										icon-right
-										expand="block"
-										fill="outline"
-										shape="round"
-										color="primary">
-										<ion-icon slot="icon-only"
-											size="large"
-											name="logo-google"
-											ios="logo-google"
-											md="logo-google"></ion-icon>
-										Google
-									</ion-button>
-								</ion-col>
-								<ion-col>
-									<ion-button (click)="loginWithFacebook()"
-										icon-right
-										expand="block"
-										fill="outline"
-										shape="round"
-										color="primary">
-										<ion-icon slot="icon-only"
-											size="large"
-											name="logo-facebook"
-											ios="logo-facebook"
-											md="logo-facebook"></ion-icon>
-										Facebook
-									</ion-button>
-								</ion-col>
-								<ion-col></ion-col>
-							</ion-row>
-						</ion-grid>
-					</ion-buttons>
-				</ion-card-content>
-			</ion-card>
-		</ion-col>
-	</ion-row -->
-
-
-
-
-
-
-
-
-
-
-
-
 	<ion-row>
 		<ion-col>
 			<ion-card>
@@ -166,17 +80,6 @@
 		</ion-col>
 
 
-
-
-
-
-
-
-
-
-
-
-
 		<ion-col>
 			<ion-card>
 				<ion-card-header>
@@ -187,7 +90,7 @@
 				</ion-card-header>
 				<ion-card-content>
 					<form [formGroup]="registerForm"
-						(ngSubmit)="register(registerForm.controls['email'].value, registerForm.controls['password'].value)">
+						(ngSubmit)="register(registerForm.controls['username'].value, registerForm.controls['email'].value, registerForm.controls['password'].value)">
 						<ion-item>
 							<ion-input label="Username"
 								labelPlacement="floating"
@@ -217,16 +120,6 @@
 			</ion-card>
 		</ion-col>
 	</ion-row>
-
-
-
-
-
-
-
-
-
-
 
 
 </ion-grid>

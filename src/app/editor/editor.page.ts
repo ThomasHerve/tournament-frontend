@@ -8,13 +8,14 @@ import { EditorService } from './../services/editor.service';
 import { EntryDTO } from './DTO/entryDTO';
 import { FormsModule } from '@angular/forms';
 import { TournamentDTO } from './DTO/tournamentDTO';
+import { UserComponent } from "../user/user.component";
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.page.html',
   styleUrls: ['./editor.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, UserComponent]
 })
 export class EditorPage implements OnInit {
 

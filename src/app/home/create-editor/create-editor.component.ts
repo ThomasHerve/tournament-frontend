@@ -1,16 +1,16 @@
-import { Auth, FacebookAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IonicModule, ToastController } from '@ionic/angular';
 
-import { IonicModule } from '@ionic/angular';
 import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UserComponent } from 'src/app/user/user.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-create-custom',
   templateUrl: './create-editor.component.html',
-  styleUrls: ['./create-editor.component.scss'],
+  styleUrls: ['./create-editor.component.scss', '../home.page.scss'],
   standalone: true,
   imports: [IonicModule, FormsModule, ReactiveFormsModule, RouterModule, NgIf],
 })
@@ -20,11 +20,8 @@ export class CreateEditorComponent implements OnInit {
   loginForm: FormGroup;
   passwordRecoveryForm: FormGroup;
 
-  auth: Auth;
 
-  constructor(private fb: FormBuilder) {
-    this.auth = getAuth();
-
+  constructor(private fb: FormBuilder, private userService: UserService, private toastController: ToastController) {
     this.registerForm = this.fb.group({
       username: ['', Validators.compose([Validators.required, (Validators.pattern(/^[^@]+$/))])],
       email: ['', Validators.compose([Validators.required, Validators.email])],
@@ -41,52 +38,30 @@ export class CreateEditorComponent implements OnInit {
   ngOnInit() {
   }
 
-  register(email: string, password: string): void {
-    createUserWithEmailAndPassword(this.auth, email, password)
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode);
-      });
+  register(username: string, email: string, password: string): void {
+    this.userService.registerUser({ username: username, password: password, email: email }).subscribe(value => UserComponent.user = value);
   }
 
   login(email: string, password: string): void {
-    signInWithEmailAndPassword(this.auth, email, password)
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode);
-      });
-  }
-
-  loginWithGoogle() {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(this.auth, provider)
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode);
-      });
-  }
-
-
-  loginWithFacebook() {
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(this.auth, provider)
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode);
-      });
+    this.userService.loginUser({ username: email, password: password, email: email }).subscribe(value => UserComponent.user = value);
   }
 
   passwordRecovery(email: string): void {
-    sendPasswordResetEmail(this.auth, email)
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode);
-      });
+    this.userService.recoverUser(email).subscribe(() => this.presentOkToast("Email sent"));
   }
 
+
+  isUserLogged() {
+    return UserComponent.user != null;
+  }
+
+
+  async presentOkToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      color: 'success'
+    });
+    toast.present();
+  }
 }

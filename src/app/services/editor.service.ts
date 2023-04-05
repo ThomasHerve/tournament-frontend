@@ -25,32 +25,26 @@ export class EditorService {
 
   addTournament(tournament: TournamentDTO): Observable<any> {
     return this.http.post(`${this.BASE_URL}/create`, tournament).pipe(
-      catchError((error: any) => {
-        console.error(error);
-        this.presentErrorToast(error.message);
-        throw error;
-      })
+      catchError((error: any) => { throw this.handleError(error) })
     );
   }
 
   updateTournament(tournament: TournamentDTO): Observable<any> {
     return this.http.put(`${this.BASE_URL}`, tournament).pipe(
-      catchError((error: any) => {
-        console.error(error);
-        this.presentErrorToast(error.message);
-        throw error;
-      })
+      catchError((error: any) => { throw this.handleError(error) })
     );
   }
 
   deleteTournament(id: number): Observable<any> {
     return this.http.delete(`${this.BASE_URL}${id}`).pipe(
-      catchError((error: any) => {
-        console.error(error);
-        this.presentErrorToast(error.message);
-        throw error;
-      })
+      catchError((error: any) => { throw this.handleError(error) })
     );
+  }
+
+  private handleError(error: any): any {
+    console.error(error);
+    this.presentErrorToast(error.message);
+    return error;
   }
 
   async presentErrorToast(message: string) {

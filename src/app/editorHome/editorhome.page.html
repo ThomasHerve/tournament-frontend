@@ -3,14 +3,21 @@
 		<ion-title>
 			Open a tournament to edit
 		</ion-title>
+		<ion-buttons slot="end">
+			<app-user></app-user>
+		</ion-buttons>
 	</ion-toolbar>
 </ion-header>
+
+
 
 
 
 <ion-content fullscreen="true">
 	<ion-grid>
 		<ion-row>
+
+
 
 
 
@@ -26,6 +33,8 @@
 
 
 
+
+
 			<ion-col size="2">
 				<ion-card (click)="newSharedTournament()"
 					class="cardplus">
@@ -35,6 +44,8 @@
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
+
+
 
 
 
@@ -58,15 +69,21 @@
 
 
 
+
+
 						<ion-text>
 							{{localDescriptor.description}}
 						</ion-text>
 
 
 
+
+
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
+
+
 
 
 
@@ -86,8 +103,12 @@
 
 
 
+
+
 						<ion-title size="large">{{sd.name}}</ion-title>
 					</ion-toolbar>
+
+
 
 
 
@@ -106,12 +127,18 @@
 
 
 
+
+
 				</ion-card>
 			</ion-col>
 
 
 
+
+
 		</ion-row>
+
+
 
 
 

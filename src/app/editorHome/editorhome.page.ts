@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TournamentDTO } from '../editor/DTO/tournamentDTO';
+import { UserComponent } from "../user/user.component";
 import { actionSheetController } from '@ionic/core';
 
 @Component({
@@ -13,7 +14,7 @@ import { actionSheetController } from '@ionic/core';
   templateUrl: './editorhome.page.html',
   styleUrls: ['./editorhome.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule,]
+  imports: [IonicModule, CommonModule, FormsModule, UserComponent]
 })
 export class EditorHomePage implements OnInit {
 
