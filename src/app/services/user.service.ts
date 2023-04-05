@@ -3,7 +3,7 @@ import { Observable, catchError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { UserDTO } from '../home/DTO/userDTO';
+import { UserDTO } from '../shared/DTO/userDTO';
 
 @Injectable({
   providedIn: 'root'

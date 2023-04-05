@@ -1,6 +1,10 @@
+<app-header></app-header>
+
+
 <ion-header [translucent]="true">
 	<ion-toolbar>
 		<ion-title>editor</ion-title>
+
 
 
 		<ion-buttons slot="start">
@@ -15,6 +19,7 @@
 		</ion-buttons>
 	</ion-toolbar>
 </ion-header>
+
 
 
 <ion-content fullscreen="true">
@@ -46,6 +51,7 @@
 			</ion-row>
 		</ion-grid>
 	</ion-card>
+
 
 
 	<ion-card *ngFor="let entry of tournament.entries; let i=index"
@@ -81,7 +87,9 @@
 		</ion-card-content>
 
 
+
 	</ion-card>
+
 
 
 	<ion-card (click)="addEntry()"

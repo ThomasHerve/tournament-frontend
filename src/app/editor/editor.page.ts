@@ -1,21 +1,21 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { IonicModule, ToastController } from '@ionic/angular';
-import { filter, tap } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { EditorService } from './../services/editor.service';
 import { EntryDTO } from './DTO/entryDTO';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from "../shared/header/header.component";
 import { TournamentDTO } from './DTO/tournamentDTO';
-import { UserComponent } from "../user/user.component";
+import { UserComponent } from '../shared/user/user.component';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.page.html',
   styleUrls: ['./editor.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, UserComponent]
+  imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
 })
 export class EditorPage implements OnInit {
 

@@ -18,6 +18,15 @@ export const routes: Routes = [
     path: 'Editor/:id',
     loadComponent: () => import('./editor/editor.page').then(m => m.EditorPage)
   },
+  {
+    path: 'Lobby',
+    loadComponent: () => import('./lobby/lobby.page').then(m => m.LobbyPage)
+  },
+  {
+    path: 'Lobby/:id',
+    loadComponent: () => import('./lobby/lobby.page').then(m => m.LobbyPage)
+  }
+
 
 
 ];

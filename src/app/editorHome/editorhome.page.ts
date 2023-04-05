@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { EntryDTO } from '../editor/DTO/entryDTO';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from "../shared/header/header.component";
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TournamentDTO } from '../editor/DTO/tournamentDTO';
-import { UserComponent } from "../user/user.component";
+import { UserComponent } from '../shared/user/user.component';
 import { actionSheetController } from '@ionic/core';
 
 @Component({
@@ -14,7 +14,7 @@ import { actionSheetController } from '@ionic/core';
   templateUrl: './editorhome.page.html',
   styleUrls: ['./editorhome.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, UserComponent]
+  imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
 })
 export class EditorHomePage implements OnInit {
 

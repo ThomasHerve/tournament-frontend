@@ -2,33 +2,32 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule, PopoverController } from '@ionic/angular';
 
 import { NgIf } from '@angular/common';
-import { UserDTO } from '../home/DTO/userDTO';
-import { UserPopoverComponent } from './user-popover/user-popover.component';
+import { UserComponent } from '../user/user.component';
+import { UserDTO } from '../DTO/userDTO';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss'],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
   standalone: true,
   imports: [IonicModule, NgIf],
 })
-export class UserComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
-  public static user: UserDTO | null = null
   get user(): UserDTO | null {
     return UserComponent.user;
   }
 
-  roleMsg = '';
-
   constructor(public popoverController: PopoverController) { }
+
   ngOnInit() { }
+
 
   async presentPopover(e: Event) {
     let popover: HTMLIonPopoverElement;
     if (this.user) {
       popover = await this.popoverController.create({
-        component: UserPopoverComponent,
+        component: UserComponent,
         event: e,
       });
     } else {
@@ -40,18 +39,19 @@ export class UserComponent implements OnInit {
 
     await popover.present();
 
-    const { role } = await popover.onDidDismiss();
-    this.roleMsg = `Popover dismissed with role: ${role}`;
+    await popover.onDidDismiss();
+
   }
 
 }
+
 
 @Component({
   template: `<ion-content class="ion-padding">Go to homepage to log in</ion-content>`,
   standalone: true,
   imports: [IonicModule],
 })
-export class NoUserPopoverComponent implements OnInit {
+class NoUserPopoverComponent implements OnInit {
 
   constructor() { }
 

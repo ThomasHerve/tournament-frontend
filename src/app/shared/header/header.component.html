@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+	<ion-toolbar>
+		<ion-title class="ion-text-center main-title">
+			Open a tournament to edit
+		</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="presentPopover($event)">
+				<ng-container *ngIf="user; else noUser">
+					<ion-icon style="color: green;"
+						slot="icon-only"
+						name="person">
+					</ion-icon>
+					{{ user!.username }}
+				</ng-container>
+				<ng-template #noUser>
+					<ion-icon slot="icon-only"
+						name="person"></ion-icon>
+				</ng-template>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>

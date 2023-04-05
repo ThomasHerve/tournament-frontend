@@ -4,7 +4,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 
 import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { UserComponent } from 'src/app/user/user.component';
+import { UserComponent } from 'src/app/shared/user/user.component';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({

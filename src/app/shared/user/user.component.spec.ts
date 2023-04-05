@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
+import { IonicModule } from '@ionic/angular';
 import { UserComponent } from './user.component';
 
-describe('UserComponent', () => {
+describe('UserPopoverComponent', () => {
   let component: UserComponent;
   let fixture: ComponentFixture<UserComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserComponent ],
+      declarations: [UserComponent],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
