@@ -1,24 +1,16 @@
-<app-header></app-header>
+<app-header title="Edit your tournament"></app-header>
 
 
-<ion-header [translucent]="true">
-	<ion-toolbar>
-		<ion-title>editor</ion-title>
+<ion-toolbar>
+	<ion-buttons slot="start">
+		<ion-back-button default-href="#"></ion-back-button>
+		<ion-button (click)="saveInCloud()">
+			<ion-icon slot="icon-only"
+				name="save-outline"></ion-icon>
+		</ion-button>
+	</ion-buttons>
+</ion-toolbar>
 
-
-
-		<ion-buttons slot="start">
-			<ion-back-button default-href="#"></ion-back-button>
-			<ion-button (click)="saveInCloud()">
-				<ion-icon slot="icon-only"
-					name="save-outline"></ion-icon>
-			</ion-button>
-		</ion-buttons>
-		<ion-buttons slot="end">
-			<app-user></app-user>
-		</ion-buttons>
-	</ion-toolbar>
-</ion-header>
 
 
 
@@ -51,6 +43,7 @@
 			</ion-row>
 		</ion-grid>
 	</ion-card>
+
 
 
 
@@ -88,7 +81,9 @@
 
 
 
+
 	</ion-card>
+
 
 
 

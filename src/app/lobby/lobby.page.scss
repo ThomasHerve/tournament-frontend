@@ -1,0 +1,19 @@
+hr {
+  border-top: 1px double #777777;
+  margin-top: 20px;
+  width: 40%;
+}
+
+ion-card-title{
+  margin-bottom: 10px;
+}
+
+.okBtn{
+  position: relative;
+  top: -52px;
+  width: 40px;
+  height: 40px;
+  align-self: flex-end;
+  right: 4px;
+  z-index: 2;
+}

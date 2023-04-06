@@ -1,6 +1,4 @@
-<app-header></app-header>
-
-
+<app-header title="Pick a tournament to edit"></app-header>
 
 
 <ion-content fullscreen="true">
@@ -49,7 +47,6 @@
 			</ion-col>
 
 
-
 			<ion-col *ngFor="let sd of ownedDescriptors"
 				size="3">
 				<ion-card (click)="loadTournament(sd)"
@@ -63,14 +60,8 @@
 									md="ellipsis-vertical"></ion-icon>
 							</ion-button>
 						</ion-buttons>
-
-
-
 						<ion-title size="large">{{sd.name}}</ion-title>
 					</ion-toolbar>
-
-
-
 					<ion-buttons slot="end">
 						<ion-button>
 							<ion-icon slot="icon-only"
@@ -83,16 +74,11 @@
 						<ion-img [src]="sd.icon"></ion-img>
 						<ion-text>{{sd.description}}</ion-text>
 					</ion-card-content>
-
-
-
 				</ion-card>
 			</ion-col>
 
 
-
 		</ion-row>
-
 
 
 	</ion-grid>

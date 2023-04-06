@@ -1,24 +1,44 @@
-<ion-header [translucent]="true">
-	<ion-toolbar>
-		<ion-title>
-			Welcome into the Lobby
-		</ion-title>
-		<ion-buttons slot="end">
-			<app-user></app-user>
-		</ion-buttons>
-	</ion-toolbar>
-</ion-header>
+<app-header title="Welcome into the Lobby"></app-header>
 
 <ion-content [fullscreen]="true">
-	<ion-card>
-		<ion-card-header>
-			<ion-card-title>theme</ion-card-title>
-		</ion-card-header>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<ion-card>
+					<ion-card-header>
+						<ion-card-title>Theme</ion-card-title>
+						<ion-searchbar></ion-searchbar>
+					</ion-card-header>
+				</ion-card>
+			</ion-col>
+			<ion-col>
+				<ion-card>
+					<ion-card-header>
+						<ion-card-title>Set your name !</ion-card-title>
+						<ion-input [(ngModel)]="username"
+							label="You are :"
+							fill="outline"
+							label-placement="floating">
+						</ion-input>
+						<ion-button (click)="sendName()"
+							class="okBtn">
+							OK
+						</ion-button>
 
-		<ion-card-content>
-			<ion-list>
-				<!-- ion-item *ngFor="let player of players">{{player}}</ion-item -->
-			</ion-list>
-		</ion-card-content>
-	</ion-card>
+						<hr>
+
+						<ion-card-title>Players</ion-card-title>
+					</ion-card-header>
+
+					<ion-card-content>
+						<ion-list>
+							<!-- ion-item *ngFor="let player of players">{{player}}</ion-item -->
+						</ion-list>
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+
+	</ion-grid>
+
 </ion-content>

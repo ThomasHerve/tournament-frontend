@@ -1,8 +1,10 @@
 <ion-header [translucent]="true">
 	<ion-toolbar>
-		<ion-title class="ion-text-center main-title">
-			Open a tournament to edit
-		</ion-title>
+		<ion-img [routerLink]="['/Home']"
+			class="logoImg"
+			slot="start"
+			src="assets\icon\favicon.png"></ion-img>
+		<ion-title class="ion-text-center main-title">{{title}}</ion-title>
 		<ion-buttons slot="end">
 			<ion-button (click)="presentPopover($event)">
 				<ng-container *ngIf="user; else noUser">

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IonicModule, PopoverController } from '@ionic/angular';
 
 import { NgIf } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { UserComponent } from '../user/user.component';
 import { UserDTO } from '../DTO/userDTO';
 
@@ -10,13 +11,16 @@ import { UserDTO } from '../DTO/userDTO';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [IonicModule, NgIf],
+  imports: [IonicModule, RouterModule, NgIf],
 })
 export class HeaderComponent implements OnInit {
 
   get user(): UserDTO | null {
     return UserComponent.user;
   }
+
+  @Input()
+  title: string = "Welcome";
 
   constructor(public popoverController: PopoverController) { }
 
