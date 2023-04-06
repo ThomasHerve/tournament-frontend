@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IonicModule, PopoverController } from '@ionic/angular';
 
-import { IonicModule } from '@ionic/angular';
 import { UserDTO } from '../DTO/userDTO';
 
 @Component({
@@ -11,15 +11,41 @@ import { UserDTO } from '../DTO/userDTO';
   imports: [IonicModule],
 })
 export class UserComponent implements OnInit {
-  public static user: UserDTO | null = null
+  private static _user: UserDTO | null = null
+  static get user(): UserDTO | null {
+    return UserComponent._user;
+  }
+  static set user(value: UserDTO | null) {
+    if (value)
+      localStorage.setItem('user', JSON.stringify(value))
+    else
+      localStorage.removeItem('user')
+    UserComponent._user = value
+  }
+
   get user(): UserDTO | null {
     return UserComponent.user;
   }
-  constructor() { }
+  set user(value: UserDTO | null) {
+    UserComponent.user = value
+  }
+
+  constructor(private popoverController: PopoverController) {
+  }
 
   ngOnInit() { }
 
-  logout() { }
+  logout() {
+    this.popoverController.dismiss().then(() =>
+      this.user = null
+    );
+  }
+
+  static cacheLoadUser() {
+    const json = localStorage.getItem('user');
+    if (json)
+      UserComponent._user = JSON.parse(json);
+  }
 }
 
 

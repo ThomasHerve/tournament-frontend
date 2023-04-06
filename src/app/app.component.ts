@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { User } from 'firebase/auth';
+import { UserComponent } from './shared/user/user.component';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,9 @@ import { User } from 'firebase/auth';
   imports: [IonicModule],
 })
 export class AppComponent {
-  static appUser: User | null;
 
-  constructor() { }
+  constructor() {
+    UserComponent.cacheLoadUser();
+  }
 
 }

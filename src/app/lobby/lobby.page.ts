@@ -19,6 +19,8 @@ export class LobbyPage implements OnInit {
   private lobbyId: string;
   username: string = "";
 
+  players:Array<string> = new Array()
+
   constructor(private route: ActivatedRoute) {
     const lobbyId = this.route.snapshot.paramMap.get('id');
     if (lobbyId)

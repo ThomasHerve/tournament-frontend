@@ -23,7 +23,8 @@
 				</ion-card-header>
 				<ion-card-content>
 					<ion-input [(ngModel)]="gameCode"
-						placeholder="Code de la partie"></ion-input>
+						label="Code de la partie"
+						labelPlacement="floating"></ion-input>
 					<ion-button [routerLink]="['/Lobby',gameCode]"
 						expand="block"
 						color="primary">

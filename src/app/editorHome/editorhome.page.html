@@ -1,85 +1,72 @@
-<app-header title="Pick a tournament to edit"></app-header>
-
-
+<app-header title="Pick a tournament"></app-header>
 <ion-content fullscreen="true">
-	<ion-grid>
-		<ion-row>
-			<ion-col size="2">
-				<ion-card (click)="newTournament()"
-					class="cardplus">
-					<ion-card-content>
-						<ion-title size="large">New</ion-title>
-						<ion-icon [name]="'add'"></ion-icon>
-					</ion-card-content>
-				</ion-card>
-			</ion-col>
-			<ion-col size="2">
-				<ion-card (click)="newSharedTournament()"
-					class="cardplus">
-					<ion-card-content>
-						<ion-title size="large">Shared</ion-title>
-						<ion-icon [name]="'share-social'"></ion-icon>
-					</ion-card-content>
-				</ion-card>
-			</ion-col>
-			<ion-col *ngIf="localDescriptor"
-				size="3">
-				<ion-card (click)="loadLocalTournament()"
-					class="scenariocard"
-					color="secondary">
-					<ion-title size="small"
-						color="tertiary">
-						Stored locally
-					</ion-title>
-					<ion-title size="large">
-						{{localDescriptor.title}}
-					</ion-title>
-					<ion-card-content>
-						<ion-text color="primary">
-							{{localDescriptor.creator}}
-						</ion-text>
-						<ion-img [src]="localDescriptor.icon"></ion-img>
-						<ion-text>
-							{{localDescriptor.description}}
-						</ion-text>
-					</ion-card-content>
-				</ion-card>
-			</ion-col>
-
-
-			<ion-col *ngFor="let sd of ownedDescriptors"
-				size="3">
-				<ion-card (click)="loadTournament(sd)"
-					(contextmenu)="contextOwn($event,sd)"
-					class="scenariocard">
-					<ion-toolbar>
-						<ion-buttons slot="primary">
-							<ion-button (click)="contextOwn($event,sd)">
-								<ion-icon slot="icon-only"
-									ios="ellipsis-horizontal"
-									md="ellipsis-vertical"></ion-icon>
-							</ion-button>
-						</ion-buttons>
-						<ion-title size="large">{{sd.name}}</ion-title>
-					</ion-toolbar>
-					<ion-buttons slot="end">
-						<ion-button>
-							<ion-icon slot="icon-only"
-								ios="ellipsis-horizontal"
-								md="ellipsis-vertical"></ion-icon>
-						</ion-button>
-					</ion-buttons>
-					<ion-card-content>
-						<ion-text color="primary">{{sd.creator}}</ion-text>
-						<ion-img [src]="sd.icon"></ion-img>
-						<ion-text>{{sd.description}}</ion-text>
-					</ion-card-content>
-				</ion-card>
-			</ion-col>
-
-
-		</ion-row>
-
-
-	</ion-grid>
+	<div class="cardList">
+		<!-- Cartes plus -->
+		<ion-card (click)="newTournament()"
+			class="cardplus">
+			<ion-card-header>
+				<ion-card-title size="large">New</ion-card-title>
+			</ion-card-header>
+			<ion-card-content>
+				<ion-icon [name]="'add'"></ion-icon>
+			</ion-card-content>
+		</ion-card>
+		<ion-card (click)="newSharedTournament()"
+			class="cardplus">
+			<ion-card-header>
+				<ion-card-title size="large">Shared</ion-card-title>
+			</ion-card-header>
+			<ion-card-content>
+				<ion-icon [name]="'share-social'"></ion-icon>
+			</ion-card-content>
+		</ion-card>
+		<!-- Cartes locals -->
+		<ion-card *ngIf="localDescriptor"
+			(click)="loadLocalTournament()"
+			class="basicCard localCard"
+			color="secondary">
+			<ion-card-header>
+				<ion-text>Stored locally</ion-text>
+				<ion-card-title>
+					{{localDescriptor.title}}
+				</ion-card-title>
+			</ion-card-header>
+			<ion-card-content>
+				<ion-text>
+					{{localDescriptor.description}}
+				</ion-text>
+				<ion-item>
+					<ion-img [src]="localDescriptor.icon"></ion-img>
+				</ion-item>
+			</ion-card-content>
+		</ion-card>
+		<!-- Cartes -->
+		<ion-card *ngFor="let sd of ownedDescriptors"
+			(click)="loadTournament(sd)"
+			(contextmenu)="contextOwn($event,sd)"
+			class="basicCard">
+			<ion-toolbar>
+				<ion-buttons slot="primary">
+					<ion-button (click)="contextOwn($event,sd)">
+						<ion-icon slot="icon-only"
+							ios="ellipsis-horizontal"
+							md="ellipsis-vertical"></ion-icon>
+					</ion-button>
+				</ion-buttons>
+				<ion-title size="large">{{sd.title}}</ion-title>
+			</ion-toolbar>
+			<ion-buttons slot="end">
+				<ion-button>
+					<ion-icon slot="icon-only"
+						ios="ellipsis-horizontal"
+						md="ellipsis-vertical"></ion-icon>
+				</ion-button>
+			</ion-buttons>
+			<ion-card-content>
+				<ion-text color="primary">{{sd.creator}}</ion-text>
+				<ion-text>{{sd.description}}</ion-text>
+				<ion-img [src]="sd.icon"></ion-img>
+			</ion-card-content>
+		</ion-card>
+	</div>
 </ion-content>

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../shared/header/header.component";
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { TournamentDTO } from '../editor/DTO/tournamentDTO';
+import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
 import { UserComponent } from '../shared/user/user.component';
 import { actionSheetController } from '@ionic/core';
 
@@ -18,8 +18,8 @@ import { actionSheetController } from '@ionic/core';
 })
 export class EditorHomePage implements OnInit {
 
-  ownedDescriptors = Array();
-  localDescriptor: TournamentDTO | null = null;
+  ownedDescriptors = Array<TournamentDescriptorDTO>();
+  localDescriptor: TournamentDescriptorDTO | null = null;
 
   constructor(private router: Router) {
   }
@@ -48,12 +48,12 @@ export class EditorHomePage implements OnInit {
     this.router.navigateByUrl('/Editor/Local');
   }
 
-  loadTournament(dto: TournamentDTO) {
+  loadTournament(dto: TournamentDescriptorDTO) {
     this.router.navigateByUrl('/Editor/' + dto.id);
   }
 
 
-  async contextOwn(event: any, tdto: TournamentDTO) {
+  async contextOwn(event: any, tdto: TournamentDescriptorDTO) {
     event.preventDefault();
     actionSheetController.create({
       header: tdto.title,
@@ -67,11 +67,11 @@ export class EditorHomePage implements OnInit {
     });
   }
 
-  shareTournament(tdto: TournamentDTO) {
+  shareTournament(tdto: TournamentDescriptorDTO) {
 
   }
 
-  deleteTournament(tdto: TournamentDTO) {
+  deleteTournament(tdto: TournamentDescriptorDTO) {
 
   }
 

@@ -1,5 +1,6 @@
 import { Observable, catchError } from 'rxjs';
 
+import { Config } from 'src/app.config';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
@@ -10,7 +11,7 @@ import { UserDTO } from '../shared/DTO/userDTO';
 })
 export class UserService {
 
-  private apiUrl = 'https://mon-api.com/users';
+  private apiUrl = Config.apiBaseUrl + "/users";
 
   constructor(private http: HttpClient, private toastController: ToastController) { }
 
@@ -39,7 +40,6 @@ export class UserService {
   }
 
   private handleError(error: any): any {
-    console.error(error);
     this.presentErrorToast(error.message);
     return error;
   }

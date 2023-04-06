@@ -1,7 +1,7 @@
 
 export class TournamentDescriptorDTO {
   id: Number
-  name: string
+  title: string
   description: string
   icon: string
   creator: string
@@ -9,7 +9,7 @@ export class TournamentDescriptorDTO {
 
   constructor() {
     this.id = -1
-    this.name = "default"
+    this.title = "default"
     this.description = "i am a default tournament"
     this.icon = "default image"
     this.creator = "default creator"
