@@ -9,17 +9,18 @@ import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
 })
 export class TournamentService {
 
-  private apiUrl = Config.apiBaseUrl + "/tournament";
+  private BASE_URL = Config.apiBaseUrl + "/tournament";
 
 
   constructor(private http: HttpClient) { }
 
-  getAllTournaments(): Observable<TournamentDescriptorDTO> {
-    return this.http.get<TournamentDescriptorDTO>(`${this.apiUrl}/all`);
+  getAllTournamentDescriptors(): Observable<TournamentDescriptorDTO[]> {
+    return this.http.get<TournamentDescriptorDTO[]>(`${this.BASE_URL}/all`);
   }
 
-  getAllTournamentsWithFilters(filters: any): Observable<TournamentDescriptorDTO> {
-    return this.http.get<TournamentDescriptorDTO>(`${this.apiUrl}/all/${filters}`);
+  getAllTournamentDescriptorsWithFilters(filters: any): Observable<TournamentDescriptorDTO[]> {
+    return this.http.get<TournamentDescriptorDTO[]>(`${this.BASE_URL}/all/${filters}`);
   }
+
 
 }

@@ -1,5 +1,6 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Config } from 'src/app.config';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular';
@@ -14,35 +15,36 @@ import { catchError } from 'rxjs/operators';
 export class EditorService {
 
   private readonly BASE_URL = Config.apiBaseUrl + '/tournament';
-  private get accesToken(): any { return UserComponent.user!.access_token; }
-
+  private readonly httpOptions = {
+    headers: new HttpHeaders({
+      'Authorization': `Bearer ${UserComponent.user!.access_token}`
+    })
+  };
   constructor(private http: HttpClient, private toastController: ToastController) { }
-
-  getAllTournamentDescriptors(): Observable<TournamentDescriptorDTO[]> {
-    return this.http.get<TournamentDescriptorDTO[]>(this.BASE_URL);
-  }
 
   getTournamentById(id: number): Observable<TournamentDTO> {
     return this.http.get<TournamentDTO>(`${this.BASE_URL}/${id}`);
   }
 
   addTournament(tournament: TournamentDTO): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/create`, tournament, this.accesToken).pipe(
+    return this.http.post(`${this.BASE_URL}/create`, tournament, this.httpOptions).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }
 
   updateTournament(tournament: TournamentDTO): Observable<any> {
-    return this.http.put(`${this.BASE_URL}`, tournament, this.accesToken).pipe(
+    return this.http.put(`${this.BASE_URL}`, tournament, this.httpOptions).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }
 
   deleteTournament(id: number): Observable<any> {
-    return this.http.delete(`${this.BASE_URL}/${id}`, this.accesToken).pipe(
+    return this.http.delete(`${this.BASE_URL}/${id}`, this.httpOptions).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }
+
+
 
   private handleError(error: any): any {
     console.error(error);

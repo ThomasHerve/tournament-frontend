@@ -6,6 +6,7 @@ import { HeaderComponent } from "../shared/header/header.component";
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
+import { TournamentService } from './../services/tournament.service';
 import { UserComponent } from '../shared/user/user.component';
 import { actionSheetController } from '@ionic/core';
 
@@ -18,10 +19,10 @@ import { actionSheetController } from '@ionic/core';
 })
 export class EditorHomePage implements OnInit {
 
-  ownedDescriptors = Array<TournamentDescriptorDTO>();
+  ownedDescriptors: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
   localDescriptor: TournamentDescriptorDTO | null = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private tournamentService: TournamentService) {
   }
 
   ngOnInit() {
@@ -29,12 +30,9 @@ export class EditorHomePage implements OnInit {
     if (json)
       this.localDescriptor = JSON.parse(json);
 
-    this.loadOwnScenarioList();
+    this.tournamentService.getAllTournamentDescriptors().subscribe(value => this.ownedDescriptors = value);
   }
 
-  async loadOwnScenarioList() {
-
-  }
 
 
   newTournament() {

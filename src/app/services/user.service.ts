@@ -11,30 +11,30 @@ import { UserDTO } from '../shared/DTO/userDTO';
 })
 export class UserService {
 
-  private apiUrl = Config.apiBaseUrl + "/users";
+  private BASE_URL = Config.apiBaseUrl + "/users";
 
   constructor(private http: HttpClient, private toastController: ToastController) { }
 
   registerUser(user: UserDTO): Observable<any> {
-    return this.http.post(`${this.apiUrl}/create`, user).pipe(
+    return this.http.post(`${this.BASE_URL}/create`, user).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }
 
   loginUser(user: UserDTO): Observable<UserDTO> {
-    return this.http.post<UserDTO>(`${this.apiUrl}/login`, user).pipe(
+    return this.http.post<UserDTO>(`${this.BASE_URL}/login`, user).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }
 
   recoverUser(usermail: string): Observable<UserDTO> {
-    return this.http.post<UserDTO>(`${this.apiUrl}/login`, usermail).pipe(
+    return this.http.post<UserDTO>(`${this.BASE_URL}/login`, usermail).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }
 
   getUserProfile(): Observable<UserDTO> {
-    return this.http.get<UserDTO>(`${this.apiUrl}/profile`).pipe(
+    return this.http.get<UserDTO>(`${this.BASE_URL}/profile`).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }

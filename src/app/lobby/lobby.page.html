@@ -3,16 +3,9 @@
 <ion-content [fullscreen]="true">
 	<ion-grid>
 		<ion-row>
+
 			<ion-col>
-				<ion-card>
-					<ion-card-header>
-						<ion-card-title>Theme</ion-card-title>
-						<ion-searchbar></ion-searchbar>
-					</ion-card-header>
-				</ion-card>
-			</ion-col>
-			<ion-col>
-				<ion-card>
+				<ion-card class="cardContainer">
 					<ion-card-header>
 						<ion-card-title>Set your name !</ion-card-title>
 						<ion-input [(ngModel)]="username"
@@ -24,21 +17,66 @@
 							class="okBtn">
 							OK
 						</ion-button>
-
-						<hr>
-
-						<ion-card-title>Players</ion-card-title>
 					</ion-card-header>
-
 					<ion-card-content>
+						<ion-card-title>Players</ion-card-title>
 						<ion-list>
 							<ion-item *ngFor="let player of players">{{player}}</ion-item>
 						</ion-list>
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
+
+			<ion-col>
+				<ion-card class="cardContainer">
+					<ion-card-header>
+						<ion-card-title>Theme</ion-card-title>
+					</ion-card-header>
+					<ion-card-content class="cardList">
+						<ion-card *ngIf="tournamentPicked"
+							class="basicCard"
+							color="secondary">
+							<ion-card-header>
+								<ion-card-title>
+									{{tournamentPicked.title}}
+								</ion-card-title>
+							</ion-card-header>
+							<ion-card-content>
+								<ion-text>
+									{{tournamentPicked.description}}
+								</ion-text>
+								<ion-item>
+									<ion-img [src]="tournamentPicked.icon"></ion-img>
+								</ion-item>
+							</ion-card-content>
+						</ion-card>
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+
+			<ion-col>
+				<ion-card class="cardContainer">
+					<ion-card-header>
+						<ion-searchbar class="ion-no-padding"></ion-searchbar>
+					</ion-card-header>
+					<ion-card-content class="scrollBlock cardList">
+						<ion-card *ngFor="let t of tournamentList"
+							(click)="pickTournament(t)"
+							class="basicCard">
+							<ion-card-header>
+								<ion-card-title>{{t.title}}</ion-card-title>
+							</ion-card-header>
+							<ion-card-content>
+								<ion-text>{{t.description}}</ion-text>
+								<ion-item>
+									<ion-img [src]="t.icon"></ion-img>
+								</ion-item>
+							</ion-card-content>
+						</ion-card>
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+
 		</ion-row>
-
 	</ion-grid>
-
 </ion-content>
