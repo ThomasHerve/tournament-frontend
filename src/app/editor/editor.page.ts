@@ -33,7 +33,7 @@ export class EditorPage implements OnInit {
       if (json)
         this.tournament = JSON.parse(json);
     } else {
-      editorService.getTournamentById(parseInt(id)).subscribe(value => this.tournament = value)
+      editorService.getTournamentById(parseInt(id)).subscribe(value => console.log(value))
     }
 
     this.renderer = rendererFactory.createRenderer(null, null);

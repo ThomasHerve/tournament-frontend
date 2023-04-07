@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { TournamentDTO } from '../shared/DTO/tournamentDTO';
-import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
 import { UserComponent } from '../shared/user/user.component';
 import { catchError } from 'rxjs/operators';
 
@@ -33,7 +32,7 @@ export class EditorService {
   }
 
   updateTournament(tournament: TournamentDTO): Observable<any> {
-    return this.http.put(`${this.BASE_URL}`, tournament, this.httpOptions).pipe(
+    return this.http.put(`${this.BASE_URL}/update`, tournament, this.httpOptions).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }

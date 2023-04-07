@@ -41,32 +41,26 @@
 			</ion-card-content>
 		</ion-card>
 		<!-- Cartes -->
-		<ion-card *ngFor="let sd of ownedDescriptors"
-			(click)="loadTournament(sd)"
-			(contextmenu)="contextOwn($event,sd)"
+		<ion-card *ngFor="let d of ownedDescriptors"
+			(click)="loadTournament(d)"
+			(contextmenu)="contextOwn($event,d)"
 			class="basicCard">
-			<ion-toolbar>
-				<ion-buttons slot="primary">
-					<ion-button (click)="contextOwn($event,sd)">
-						<ion-icon slot="icon-only"
-							ios="ellipsis-horizontal"
-							md="ellipsis-vertical"></ion-icon>
-					</ion-button>
-				</ion-buttons>
-				<ion-title size="large">{{sd.title}}</ion-title>
-			</ion-toolbar>
-			<ion-buttons slot="end">
-				<ion-button>
-					<ion-icon slot="icon-only"
-						ios="ellipsis-horizontal"
-						md="ellipsis-vertical"></ion-icon>
-				</ion-button>
-			</ion-buttons>
+			<ion-card-header>
+				<ion-card-title size="large">{{d.title}}</ion-card-title>
+			</ion-card-header>
 			<ion-card-content>
-				<ion-text color="primary">{{sd.creator}}</ion-text>
-				<ion-text>{{sd.description}}</ion-text>
-				<ion-img [src]="sd.icon"></ion-img>
+				<ion-text>{{d.description}}</ion-text>
+				<ion-item>
+					<ion-img [src]="d.icon"></ion-img>
+				</ion-item>
 			</ion-card-content>
+			<ion-button (click)="contextOwn($event,d)"
+				size="small"
+				class="menuCardBtn">
+				<ion-icon slot="icon-only"
+					ios="ellipsis-horizontal"
+					md="ellipsis-vertical"></ion-icon>
+			</ion-button>
 		</ion-card>
 	</div>
 </ion-content>

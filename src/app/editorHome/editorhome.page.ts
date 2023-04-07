@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
+import { EditorService } from '../services/editor.service';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../shared/header/header.component";
 import { IonicModule } from '@ionic/angular';
@@ -18,11 +19,10 @@ import { actionSheetController } from '@ionic/core';
   imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
 })
 export class EditorHomePage implements OnInit {
-
   ownedDescriptors: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
   localDescriptor: TournamentDescriptorDTO | null = null;
 
-  constructor(private router: Router, private tournamentService: TournamentService) {
+  constructor(private router: Router, private tournamentService: TournamentService, private editorService: EditorService) {
   }
 
   ngOnInit() {
@@ -53,6 +53,7 @@ export class EditorHomePage implements OnInit {
 
   async contextOwn(event: any, tdto: TournamentDescriptorDTO) {
     event.preventDefault();
+    event.stopPropagation();
     actionSheetController.create({
       header: tdto.title,
       buttons: [
@@ -70,7 +71,7 @@ export class EditorHomePage implements OnInit {
   }
 
   deleteTournament(tdto: TournamentDescriptorDTO) {
-
+    this.editorService.deleteTournament(tdto.id)
   }
 
 

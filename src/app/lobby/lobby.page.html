@@ -57,7 +57,9 @@
 			<ion-col>
 				<ion-card class="cardContainer">
 					<ion-card-header>
-						<ion-searchbar class="ion-no-padding"></ion-searchbar>
+						<ion-searchbar (ionInput)="onSearchInput($event)"
+							(ionChange)="test()"
+							class="ion-no-padding"></ion-searchbar>
 					</ion-card-header>
 					<ion-card-content class="scrollBlock cardList">
 						<ion-card *ngFor="let t of tournamentList"

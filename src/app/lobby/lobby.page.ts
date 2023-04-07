@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent, IonicModule } from '@ionic/angular';
+import { Component, OnInit, } from '@angular/core';
+import { InputChangeEventDetail, InputCustomEvent, IonicModule } from '@ionic/angular';
 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -17,13 +17,13 @@ import { UserComponent } from '../shared/user/user.component';
   imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
 })
 export class LobbyPage implements OnInit {
-
   private lobbyId: string;
   username: string = "";
   tournamentPicked: TournamentDescriptorDTO | null = null;
   tournamentList: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
 
   players: Array<string> = new Array()
+
 
   constructor(private route: ActivatedRoute, private tournamentService: TournamentService) {
     const lobbyId = this.route.snapshot.paramMap.get('id');
@@ -36,18 +36,24 @@ export class LobbyPage implements OnInit {
   }
 
   ngOnInit() {
-    //this.tournamentService.getAllTournamentDescriptors().subscribe(value => this.tournamentList = value);
-    this.tournamentList.push(new TournamentDescriptorDTO())
-    this.tournamentList.push(new TournamentDescriptorDTO())
-    this.tournamentList.push(new TournamentDescriptorDTO())
-    this.tournamentList.push(new TournamentDescriptorDTO())
-
+    this.tournamentService.getAllTournamentDescriptors().subscribe(value => this.tournamentList = value);
   }
 
+  onSearchInput(event: any) {
+    const searchTerm = event.target.value;
+    this.tournamentService.getAllTournamentDescriptorsWithFilters(searchTerm).subscribe(value => this.tournamentList = value);
+
+  }
+  test() {
+    console.log('test');
+  }
 
   pickTournament(t: TournamentDescriptorDTO) {
     this.tournamentPicked = t
   }
+
+
+
 
   sendName() {
 

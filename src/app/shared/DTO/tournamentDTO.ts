@@ -1,7 +1,7 @@
 import { EntryDTO } from "./entryDTO";
 
 export class TournamentDTO {
-  id: Number
+  id: number
   title: string
   description: string
   icon: string

@@ -17,7 +17,12 @@
      --background:transparent;
      --border-color: transparent;
     }
-
+    ion-text{
+      display: flex;
+      font-size:smaller;
+      line-height: 1.1;
+      margin-bottom: 1px;
+    }
   }
 }
 .basicCard:hover {
@@ -36,4 +41,16 @@
     max-width: 200px;
     max-height: 300px;
   }
+}
+
+
+.menuCardBtn{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: auto;
+  --padding-start:0;
+  --padding-end:0;
+ --background: grey;
 }
