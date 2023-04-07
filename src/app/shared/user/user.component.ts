@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule, PopoverController } from '@ionic/angular';
+import { IonicModule, PopoverController, ToastController } from '@ionic/angular';
 
 import { UserDTO } from '../DTO/userDTO';
 
@@ -11,18 +11,24 @@ import { UserDTO } from '../DTO/userDTO';
   imports: [IonicModule],
 })
 export class UserComponent implements OnInit {
+  private static instance: UserComponent;
+
   private static _user: UserDTO | null = null
   static get user(): UserDTO | null {
     return UserComponent._user;
   }
   static set user(value: UserDTO | null) {
-    if (value)
-      localStorage.setItem('user', JSON.stringify(value))
-    else
-      localStorage.removeItem('user')
     UserComponent._user = value
-  }
 
+    if (value) {
+      localStorage.setItem('user', JSON.stringify(value))
+      UserComponent.instance.presentOkToast("Welcome " + value.username)
+    }
+    else {
+      localStorage.removeItem('user')
+      UserComponent.instance.presentOkToast("Successfully logged out")
+    }
+  }
   get user(): UserDTO | null {
     return UserComponent.user;
   }
@@ -30,7 +36,9 @@ export class UserComponent implements OnInit {
     UserComponent.user = value
   }
 
-  constructor(private popoverController: PopoverController) {
+
+  constructor(private popoverController: PopoverController, private toastController: ToastController) {
+    UserComponent.instance = this;
   }
 
   ngOnInit() { }
@@ -46,6 +54,17 @@ export class UserComponent implements OnInit {
     if (json)
       UserComponent._user = JSON.parse(json);
   }
+
+
+  async presentOkToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      color: 'success'
+    });
+    toast.present();
+  }
+
 }
 
 

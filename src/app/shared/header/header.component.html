@@ -5,19 +5,16 @@
 			slot="start"
 			src="assets\icon\favicon.png"></ion-img>
 		<ion-title class="ion-text-center main-title">{{title}}</ion-title>
+
 		<ion-buttons slot="end">
+			<span *ngIf="user">
+				{{ user!.username }}
+			</span>
 			<ion-button (click)="presentPopover($event)">
-				<ng-container *ngIf="user; else noUser">
-					<ion-icon style="color: green;"
-						slot="icon-only"
-						name="person">
-					</ion-icon>
-					{{ user!.username }}
-				</ng-container>
-				<ng-template #noUser>
-					<ion-icon slot="icon-only"
-						name="person"></ion-icon>
-				</ng-template>
+				<ion-icon [color]="user?'success':''"
+					slot="icon-only"
+					name="person">
+				</ion-icon>
 			</ion-button>
 		</ion-buttons>
 	</ion-toolbar>

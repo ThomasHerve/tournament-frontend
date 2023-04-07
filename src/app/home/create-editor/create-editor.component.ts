@@ -54,21 +54,19 @@ export class CreateEditorComponent implements OnInit {
 
   userLogged(user: UserDTO) {
     UserComponent.user = user;
-    console.log(UserComponent.user)
-    this.presentOkToast("Bienvenue " + UserComponent.user.username)
   }
 
   isUserLogged() {
     return UserComponent.user != null;
   }
 
-
   async presentOkToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
       duration: 3000,
-      color: 'success'
+      color: 'primary'
     });
     toast.present();
   }
+
 }
