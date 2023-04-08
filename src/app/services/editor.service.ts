@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { TournamentDTO } from '../shared/DTO/tournamentDTO';
+import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
 import { UserComponent } from '../shared/user/user.component';
 import { catchError } from 'rxjs/operators';
 
@@ -21,8 +22,9 @@ export class EditorService {
   };
   constructor(private http: HttpClient, private toastController: ToastController) { }
 
-  getTournamentById(id: number): Observable<TournamentDTO> {
-    return this.http.get<TournamentDTO>(`${this.BASE_URL}/${id}`);
+  getAllTournamentsOfUser(): Observable<TournamentDescriptorDTO[]> {
+    return this.http.get<TournamentDescriptorDTO[]>(`${this.BASE_URL}/allcreated`, this.httpOptions);
+
   }
 
   addTournament(tournament: TournamentDTO): Observable<any> {
@@ -32,12 +34,13 @@ export class EditorService {
   }
 
   updateTournament(tournament: TournamentDTO): Observable<any> {
-    return this.http.put(`${this.BASE_URL}/update`, tournament, this.httpOptions).pipe(
+    return this.http.post(`${this.BASE_URL}/${tournament.id}/update`, tournament, this.httpOptions).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );
   }
 
   deleteTournament(id: number): Observable<any> {
+    console.log("will delete " + id)
     return this.http.delete(`${this.BASE_URL}/${id}`, this.httpOptions).pipe(
       catchError((error: any) => { throw this.handleError(error) })
     );

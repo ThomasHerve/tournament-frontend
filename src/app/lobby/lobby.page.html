@@ -7,6 +7,16 @@
 			<ion-col>
 				<ion-card class="cardContainer">
 					<ion-card-header>
+						<ion-card-title>Your lobby code :</ion-card-title>
+						<ion-input [value]="lobbyCode"
+							aria-label="Code"
+							labelPlacement="stacked"
+							fill="outline"
+							readonly></ion-input>
+						<ion-icon (click)="copyToClipboard()"
+							size="large"
+							class="lobbyCodeItem"
+							name="clipboard"></ion-icon>
 						<ion-card-title>Set your name !</ion-card-title>
 						<ion-input [(ngModel)]="username"
 							label="You are :"
@@ -32,7 +42,7 @@
 					<ion-card-header>
 						<ion-card-title>Theme</ion-card-title>
 					</ion-card-header>
-					<ion-card-content class="cardList">
+					<ion-card-content class="cardListCentered">
 						<ion-card *ngIf="tournamentPicked"
 							class="basicCard"
 							color="secondary">
@@ -50,6 +60,12 @@
 								</ion-item>
 							</ion-card-content>
 						</ion-card>
+						<ion-button [disabled]="true"
+							size="large"
+							fill="outline"
+							expand="block">
+							Launch
+						</ion-button>
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
@@ -61,7 +77,7 @@
 							(ionChange)="test()"
 							class="ion-no-padding"></ion-searchbar>
 					</ion-card-header>
-					<ion-card-content class="scrollBlock cardList">
+					<ion-card-content class="scrollBlock cardListGrid">
 						<ion-card *ngFor="let t of tournamentList"
 							(click)="pickTournament(t)"
 							class="basicCard">

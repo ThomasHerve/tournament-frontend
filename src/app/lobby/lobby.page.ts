@@ -1,10 +1,11 @@
 import { Component, OnInit, } from '@angular/core';
-import { InputChangeEventDetail, InputCustomEvent, IonicModule } from '@ionic/angular';
+import { InputChangeEventDetail, InputCustomEvent, IonicModule, ToastController } from '@ionic/angular';
 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../shared/header/header.component";
+import { LobbyService } from '../services/lobby.service';
 import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
 import { TournamentService } from '../services/tournament.service';
 import { UserComponent } from '../shared/user/user.component';
@@ -17,7 +18,7 @@ import { UserComponent } from '../shared/user/user.component';
   imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
 })
 export class LobbyPage implements OnInit {
-  private lobbyId: string;
+  lobbyCode: string;
   username: string = "";
   tournamentPicked: TournamentDescriptorDTO | null = null;
   tournamentList: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
@@ -25,12 +26,12 @@ export class LobbyPage implements OnInit {
   players: Array<string> = new Array()
 
 
-  constructor(private route: ActivatedRoute, private tournamentService: TournamentService) {
+  constructor(private route: ActivatedRoute, private toastController: ToastController, private tournamentService: TournamentService, private lobbyService: LobbyService) {
     const lobbyId = this.route.snapshot.paramMap.get('id');
     if (lobbyId)
-      this.lobbyId = lobbyId
+      this.lobbyCode = lobbyId
     else
-      this.lobbyId = "TESTCODE"
+      this.lobbyCode = "Waiting for code ..."
     if (UserComponent.user)
       this.username = UserComponent.user.username
   }
@@ -57,6 +58,20 @@ export class LobbyPage implements OnInit {
 
   sendName() {
 
+  }
+
+  copyToClipboard() {
+    navigator.clipboard.writeText(this.lobbyCode);
+    this.presentOkToast("Code Copied")
+  }
+
+  async presentOkToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      color: 'primary'
+    });
+    toast.present();
   }
 
 }

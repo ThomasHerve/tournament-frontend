@@ -30,7 +30,7 @@ export class EditorHomePage implements OnInit {
     if (json)
       this.localDescriptor = JSON.parse(json);
 
-    this.tournamentService.getAllTournamentDescriptors().subscribe(value => this.ownedDescriptors = value);
+    this.editorService.getAllTournamentsOfUser().subscribe(value => this.ownedDescriptors = value);
   }
 
 
@@ -71,7 +71,7 @@ export class EditorHomePage implements OnInit {
   }
 
   deleteTournament(tdto: TournamentDescriptorDTO) {
-    this.editorService.deleteTournament(tdto.id)
+    this.editorService.deleteTournament(tdto.id).subscribe(value => console.log("deleted"));
   }
 
 

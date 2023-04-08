@@ -11,11 +11,18 @@ export class TournamentDTO {
 
   constructor() {
     this.id = -1
+    this.title = ""
+    this.description = ""
+    this.icon = ""
+    this.creator = ""
+  }
+
+  constructor2() {
+    this.id = -1
     this.title = "default"
     this.description = "i am a default tournament"
     this.icon = "default image"
     this.creator = "default creator"
   }
-
 
 }

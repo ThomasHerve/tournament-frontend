@@ -26,14 +26,30 @@ ion-col{
   z-index: 2;
 }
 
-.cardList{
+.cardListGrid {
+  @extend .cardList;
   display: grid;
-  padding: 0;
   justify-content: center;
   align-items: center;
+}
+
+.cardListCentered{
+  @extend .cardList;
+  display:grid;
+  align-items: center;
+  justify-content: center;
 }
 
 .scrollBlock{
   overflow-y: scroll;
   max-height: 60vh ;
+}
+
+.lobbyCodeItem{
+    position: absolute;
+    right: 25px;
+    top:50px;
+    z-index: 2;
+    cursor: pointer;
+
 }
