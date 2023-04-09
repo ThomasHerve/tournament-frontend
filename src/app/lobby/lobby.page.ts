@@ -28,16 +28,26 @@ export class LobbyPage implements OnInit {
 
   constructor(private route: ActivatedRoute, private toastController: ToastController, private tournamentService: TournamentService, private lobbyService: LobbyService) {
     const lobbyId = this.route.snapshot.paramMap.get('id');
-    if (lobbyId)
+    if (lobbyId) {
       this.lobbyCode = lobbyId
-    else
+      lobbyService.join(lobbyId, console.log)
+    }
+    else {
       this.lobbyCode = "Waiting for code ..."
+      lobbyService.create((value: any) => this.lobbyCode = value.id)
+    }
     if (UserComponent.user)
       this.username = UserComponent.user.username
   }
 
   ngOnInit() {
     this.tournamentService.getAllTournamentDescriptors().subscribe(value => this.tournamentList = value);
+
+    this.lobbyService.listenTournament((value: any) => {
+      this.tournamentService.getTournamentById(value.tournament_id).subscribe(v => this.tournamentPicked = v)
+    })
+
+    this.lobbyService.listenPlayers((value: any) => this.players = value.players)
   }
 
   onSearchInput(event: any) {
@@ -46,18 +56,18 @@ export class LobbyPage implements OnInit {
 
   }
   test() {
-    console.log('test');
+    console.log(this.players);
   }
 
   pickTournament(t: TournamentDescriptorDTO) {
-    this.tournamentPicked = t
+    this.lobbyService.pickTournament(t)
   }
 
 
 
 
   sendName() {
-
+    this.lobbyService.changeName(this.username)
   }
 
   copyToClipboard() {

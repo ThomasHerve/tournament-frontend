@@ -1,54 +1,51 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
+import { UserComponent } from '../shared/user/user.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LobbyService {
 
-    constructor(private socket: Socket) {
+  constructor(private socket: Socket) { }
 
-    }
 
-    // Call
+  create(callbackFn: Function) {
+    const username = UserComponent.user ? UserComponent.user.username : "HostPlayer"
+    this.socket.emit('create', { 'name': username })
+    this.socket.on("create", callbackFn)
+  }
 
-    create() {
-        this.socket.emit('create', {
-            'name': 'test'
-        });
-    }
+  join(code: string, callbackFn: Function) {
+    const username = UserComponent.user ? UserComponent.user.username : "Player"
+    this.socket.emit('join', { 'name': username, 'id': code })
+    this.socket.on("join", callbackFn)
+  }
 
-    join() {
+  changeName(name: string) {
+    this.socket.emit('changeName', { 'name': name })
+  }
 
-    }
+  pickTournament(t: TournamentDescriptorDTO) {
+    this.socket.emit('setOptions', { 'tournament_id': t.id })
+  }
 
-    leave() {
+  listenPlayers(callbackFn: Function) {
+    this.socket.on("players", callbackFn)
+  }
 
-    }
+  listenTournament(callbackFn: Function) {
+    this.socket.on("tournament", callbackFn)
+  }
 
-    launch() {
+  leave() {
+    this.socket.emit('leave')
+  }
 
-    }
+  launch() {
+    this.socket.emit('launch')
+  }
 
-    // Subscribes
 
-    getCreate() {
-        return this.socket.fromEvent('create');
-    }
-
-    getJoin() {
-        return this.socket.fromEvent('join');
-    }
-
-    getPlayers() {
-        return this.socket.fromEvent('players');
-    }
-
-    getPassword() {
-        return this.socket.fromEvent('password');
-    }
-
-    getLaunch() {
-        return this.socket.fromEvent('start');
-    }
 }

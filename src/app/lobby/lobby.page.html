@@ -12,6 +12,7 @@
 							aria-label="Code"
 							labelPlacement="stacked"
 							fill="outline"
+							style="text-transform: uppercase;"
 							readonly></ion-input>
 						<ion-icon (click)="copyToClipboard()"
 							size="large"
@@ -60,7 +61,8 @@
 								</ion-item>
 							</ion-card-content>
 						</ion-card>
-						<ion-button [disabled]="true"
+						<ion-button [disabled]="false"
+							(click)="test()"
 							size="large"
 							fill="outline"
 							expand="block">
