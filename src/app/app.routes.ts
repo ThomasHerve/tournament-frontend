@@ -26,7 +26,11 @@ export const routes: Routes = [
     path: 'Lobby/:id',
     loadComponent: () => import('./lobby/lobby.page').then(m => m.LobbyPage)
   }
-
+  ,
+  {
+    path: 'game/:id',
+    loadComponent: () => import('./game/game.page').then(m => m.GamePage)
+  }
 
 
 ];

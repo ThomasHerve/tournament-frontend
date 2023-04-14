@@ -58,6 +58,10 @@ export class LobbyService {
     this.socket.on("owner", callbackFn)
   }
 
+  listenStart(callbackFn: Function) {
+    this.socket.on("start", callbackFn)
+  }
+
   listenErrors(callbackFn: Function) {
     this.socket.on("error", callbackFn)
   }

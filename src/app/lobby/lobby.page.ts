@@ -1,7 +1,7 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, } from '@angular/core';
 import { IonicModule, ToastController } from '@ionic/angular';
 
-import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../shared/header/header.component";
@@ -22,14 +22,17 @@ export class LobbyPage implements OnInit {
   lobbyCode: string;
   username: string = "";
 
-  tournamentPicked: TournamentDescriptorDTO | null = null;
+  static tournamentPicked: TournamentDescriptorDTO | null = null;
+  get tournamentPicked() { return LobbyPage.tournamentPicked }
+  set tournamentPicked(value) { LobbyPage.tournamentPicked = value }
+
   tournamentList: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
 
   players: Array<PlayerDTO> = new Array()
   isOwner = false;
 
 
-  constructor(private route: ActivatedRoute, private toastController: ToastController, private tournamentService: TournamentService, private lobbyService: LobbyService) {
+  constructor(private route: ActivatedRoute, private router: Router, private toastController: ToastController, private tournamentService: TournamentService, private lobbyService: LobbyService) {
     const lobbyId = this.route.snapshot.paramMap.get('id');
     if (lobbyId) {
       this.lobbyCode = lobbyId
@@ -49,6 +52,8 @@ export class LobbyPage implements OnInit {
     this.lobbyService.listenTournament((value: any) => this.retreiveTournamentPicked(value.tournament_id))
     this.lobbyService.listenPlayers((value: any) => { this.players = value.players; console.log(value) })
     this.lobbyService.listenOwner(() => this.isOwner = true)
+    this.lobbyService.listenStart(() => this.router.navigate(['/game/' + this.lobbyCode]));
+
     this.lobbyService.listenErrors(console.log)
 
     //Calls
@@ -74,7 +79,8 @@ export class LobbyPage implements OnInit {
 
 
   launch() {
-    this.lobbyService.launch()
+    if (this.isOwner)
+      this.lobbyService.launch()
   }
 
 
