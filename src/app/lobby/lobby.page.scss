@@ -53,3 +53,10 @@ ion-col{
     cursor: pointer;
 
 }
+
+.playerItem{
+  --padding-start: 1px;
+  ion-icon{
+    margin-right: 8px ;
+  }
+}

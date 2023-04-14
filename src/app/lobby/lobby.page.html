@@ -32,7 +32,16 @@
 					<ion-card-content>
 						<ion-card-title>Players</ion-card-title>
 						<ion-list>
-							<ion-item *ngFor="let player of players">{{player}}</ion-item>
+							<ion-item *ngFor="let player of players"
+								class="playerItem">
+								<ion-icon *ngIf="player.isOwner"
+									name="star"
+									slot="start"></ion-icon>
+								<ion-icon *ngIf="!player.isOwner"
+									name="remove-outline"
+									slot="start"></ion-icon>
+								{{player.name}}
+							</ion-item>
 						</ion-list>
 					</ion-card-content>
 				</ion-card>
@@ -61,8 +70,8 @@
 								</ion-item>
 							</ion-card-content>
 						</ion-card>
-						<ion-button [disabled]="false"
-							(click)="test()"
+						<ion-button [disabled]="!isOwner"
+							(click)="launch()"
 							size="large"
 							fill="outline"
 							expand="block">
@@ -76,11 +85,12 @@
 				<ion-card class="cardContainer">
 					<ion-card-header>
 						<ion-searchbar (ionInput)="onSearchInput($event)"
-							(ionChange)="test()"
+							(ionChange)="onSearchInput($event)"
 							class="ion-no-padding"></ion-searchbar>
 					</ion-card-header>
 					<ion-card-content class="scrollBlock cardListGrid">
 						<ion-card *ngFor="let t of tournamentList"
+							[disabled]="!isOwner"
 							(click)="pickTournament(t)"
 							class="basicCard">
 							<ion-card-header>

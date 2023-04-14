@@ -30,7 +30,7 @@ export class EditorHomePage implements OnInit {
     if (json)
       this.localDescriptor = JSON.parse(json);
 
-    this.editorService.getAllTournamentsOfUser().subscribe(value => this.ownedDescriptors = value);
+    this.editorService.getAllTournamentsOfUser().subscribe(value => this.ownedDescriptors = value.sort((a, b) => a.id - b.id));
   }
 
 

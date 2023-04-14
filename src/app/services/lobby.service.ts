@@ -11,6 +11,9 @@ export class LobbyService {
   constructor(private socket: Socket) { }
 
 
+  /**
+   * CALLERS
+   */
   create(callbackFn: Function) {
     const username = UserComponent.user ? UserComponent.user.username : "HostPlayer"
     this.socket.emit('create', { 'name': username })
@@ -28,15 +31,7 @@ export class LobbyService {
   }
 
   pickTournament(t: TournamentDescriptorDTO) {
-    this.socket.emit('setOptions', { 'tournament_id': t.id })
-  }
-
-  listenPlayers(callbackFn: Function) {
-    this.socket.on("players", callbackFn)
-  }
-
-  listenTournament(callbackFn: Function) {
-    this.socket.on("tournament", callbackFn)
+    this.socket.emit('setOptions', { tournament: { id: t.id } })
   }
 
   leave() {
@@ -46,6 +41,28 @@ export class LobbyService {
   launch() {
     this.socket.emit('launch')
   }
+
+
+  /**
+   * LISTENERS
+   */
+  listenPlayers(callbackFn: Function) {
+    this.socket.on("players", callbackFn)
+  }
+
+  listenTournament(callbackFn: Function) {
+    this.socket.on("tournament", callbackFn)
+  }
+
+  listenOwner(callbackFn: Function) {
+    this.socket.on("owner", callbackFn)
+  }
+
+  listenErrors(callbackFn: Function) {
+    this.socket.on("error", callbackFn)
+  }
+
+
 
 
 }
