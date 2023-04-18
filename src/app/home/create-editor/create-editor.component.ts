@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 
+import { AppComponent } from 'src/app/app.component';
 import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UserComponent } from 'src/app/shared/user/user.component';
@@ -48,7 +49,7 @@ export class CreateEditorComponent implements OnInit {
   }
 
   passwordRecovery(email: string): void {
-    this.userService.recoverUser(email).subscribe(() => this.presentOkToast("Email sent"));
+    this.userService.recoverUser(email).subscribe(() => AppComponent.presentOkToast("Email sent"));
   }
 
 
@@ -60,13 +61,5 @@ export class CreateEditorComponent implements OnInit {
     return UserComponent.user != null;
   }
 
-  async presentOkToast(message: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 3000,
-      color: 'primary'
-    });
-    toast.present();
-  }
 
 }

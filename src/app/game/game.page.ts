@@ -1,16 +1,14 @@
-import { Component, OnInit, } from '@angular/core';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { AfterViewInit, Component, OnInit, } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EntryDTO } from '../shared/DTO/entryDTO';
 import { FormsModule } from '@angular/forms';
-import { GameService } from '../services/game.service';
 import { HeaderComponent } from "../shared/header/header.component";
+import { IonicModule } from '@ionic/angular';
 import { LobbyPage } from '../lobby/lobby.page';
 import { LobbyService } from '../services/lobby.service';
 import { PlayerDTO } from '../shared/DTO/playerDTO';
-import { TournamentService } from '../services/tournament.service';
 import { UserComponent } from '../shared/user/user.component';
 
 @Component({
@@ -20,12 +18,14 @@ import { UserComponent } from '../shared/user/user.component';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
 })
-export class GamePage implements OnInit {
+export class GamePage implements OnInit, AfterViewInit {
   gameCode: string;
   get tournamentPicked() { return LobbyPage.tournamentPicked! }
 
+  get players(): Array<PlayerDTO> { return LobbyPage._players }
+  set players(p: Array<PlayerDTO>) { LobbyPage._players = p }
+
   username: string = "";
-  players: Array<PlayerDTO> = new Array()
 
   entryLeft: EntryDTO = new EntryDTO()
   entryRight: EntryDTO = new EntryDTO()
@@ -35,7 +35,7 @@ export class GamePage implements OnInit {
 
   message: string | null = "Waiting for launch ..."
 
-  constructor(private route: ActivatedRoute, private toastController: ToastController, private tournamentService: TournamentService, private gameService: GameService, private lobbyService: LobbyService) {
+  constructor(private route: ActivatedRoute, private lobbyService: LobbyService) {
     const gameId = this.route.snapshot.paramMap.get('id');
     if (gameId) {
       this.gameCode = gameId
@@ -50,12 +50,17 @@ export class GamePage implements OnInit {
   ngOnInit() {
     //Listeners
     this.lobbyService.listenPlayers((value: any) => { this.players = value.players; console.log(value) })
-    this.gameService.listenRound(this.onRoundListener)
-    this.gameService.listenVotes(this.onVoteListener)
+    this.lobbyService.listenRound(this.onRoundListener)
+    this.lobbyService.listenVotes(this.onVoteListener)
     this.lobbyService.listenErrors(console.log)
 
     //Calls
 
+  }
+
+  ngAfterViewInit() {
+    const value = localStorage.getItem('gameFirstRound');
+    this.onRoundListener(value)
   }
 
   onRoundListener(value: any) {
@@ -71,19 +76,7 @@ export class GamePage implements OnInit {
   }
 
   vote(left: boolean) {
-    this.gameService.vote(left)
-  }
-
-
-
-
-  async presentOkToast(message: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 3000,
-      color: 'primary'
-    });
-    toast.present();
+    this.lobbyService.vote(left)
   }
 
 }

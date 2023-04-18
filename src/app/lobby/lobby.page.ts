@@ -2,6 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, } from '@angular/core';
 import { IonicModule, ToastController } from '@ionic/angular';
 
+import { AppComponent } from '../app.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../shared/header/header.component";
@@ -19,16 +20,20 @@ import { UserComponent } from '../shared/user/user.component';
   imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
 })
 export class LobbyPage implements OnInit {
+  static _players: Array<PlayerDTO> = new Array()
+  get players(): Array<PlayerDTO> { return LobbyPage._players }
+  set players(p: Array<PlayerDTO>) { LobbyPage._players = p }
+
   lobbyCode: string;
   username: string = "";
 
+  tournamentList: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
   static tournamentPicked: TournamentDescriptorDTO | null = null;
   get tournamentPicked() { return LobbyPage.tournamentPicked }
   set tournamentPicked(value) { LobbyPage.tournamentPicked = value }
 
-  tournamentList: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
 
-  players: Array<PlayerDTO> = new Array()
+
   isOwner = false;
 
 
@@ -50,9 +55,9 @@ export class LobbyPage implements OnInit {
   ngOnInit() {
     //Listeners
     this.lobbyService.listenTournament((value: any) => this.retreiveTournamentPicked(value.tournament_id))
-    this.lobbyService.listenPlayers((value: any) => { this.players = value.players; console.log(value) })
+    this.lobbyService.listenPlayers((value: any) => { this.players = value.players })
     this.lobbyService.listenOwner(() => this.isOwner = true)
-    this.lobbyService.listenStart(() => this.router.navigate(['/game/' + this.lobbyCode]));
+    this.lobbyService.listenStart((value: any) => { localStorage.setItem("gameFirstRound", value); this.router.navigate(['/game/' + this.lobbyCode]) });
 
     this.lobbyService.listenErrors(console.log)
 
@@ -86,16 +91,7 @@ export class LobbyPage implements OnInit {
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.lobbyCode);
-    this.presentOkToast("Code Copied")
-  }
-
-  async presentOkToast(message: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 3000,
-      color: 'primary'
-    });
-    toast.present();
+    AppComponent.presentOkToast("Code Copied")
   }
 
 }

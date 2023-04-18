@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule, PopoverController, ToastController } from '@ionic/angular';
 
+import { AppComponent } from 'src/app/app.component';
 import { UserDTO } from '../DTO/userDTO';
 
 @Component({
@@ -22,11 +23,11 @@ export class UserComponent implements OnInit {
 
     if (value) {
       localStorage.setItem('user', JSON.stringify(value))
-      UserComponent.instance.presentOkToast("Welcome " + value.username)
+      AppComponent.presentOkToast("Welcome " + value.username)
     }
     else {
       localStorage.removeItem('user')
-      UserComponent.instance.presentOkToast("Successfully logged out")
+      AppComponent.presentOkToast("Successfully logged out")
     }
   }
   get user(): UserDTO | null {
@@ -37,7 +38,7 @@ export class UserComponent implements OnInit {
   }
 
 
-  constructor(private popoverController: PopoverController, private toastController: ToastController) {
+  constructor(private popoverController: PopoverController) {
     UserComponent.instance = this;
   }
 
@@ -56,14 +57,6 @@ export class UserComponent implements OnInit {
   }
 
 
-  async presentOkToast(message: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 3000,
-      color: 'success'
-    });
-    toast.present();
-  }
 
 }
 

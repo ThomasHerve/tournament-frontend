@@ -10,24 +10,24 @@ export class LobbyService {
 
   constructor(private socket: Socket) { }
 
-
+  //#region "Lobby"
   /**
    * CALLERS
    */
   create(callbackFn: Function) {
     const username = UserComponent.user ? UserComponent.user.username : "HostPlayer"
-    this.socket.emit('create', { 'name': username })
+    this.socket.emit('create', { name: username })
     this.socket.on("create", callbackFn)
   }
 
   join(code: string, callbackFn: Function) {
     const username = UserComponent.user ? UserComponent.user.username : "Player"
-    this.socket.emit('join', { 'name': username, 'id': code })
-    this.socket.on("join", callbackFn)
+    this.socket.emit('join', { name: username, id: code })
+    this.socket.on('join', callbackFn)
   }
 
   changeName(name: string) {
-    this.socket.emit('changeName', { 'name': name })
+    this.socket.emit('changeName', { name: name })
   }
 
   pickTournament(t: TournamentDescriptorDTO) {
@@ -41,7 +41,6 @@ export class LobbyService {
   launch() {
     this.socket.emit('launch')
   }
-
 
   /**
    * LISTENERS
@@ -59,14 +58,38 @@ export class LobbyService {
   }
 
   listenStart(callbackFn: Function) {
+    console.log("POUT")
     this.socket.on("start", callbackFn)
   }
 
   listenErrors(callbackFn: Function) {
     this.socket.on("error", callbackFn)
   }
+  //#endregion
 
 
+  //#region "Game"
+  /**
+   * CALLERS
+   */
+
+  vote(left: boolean) {
+    console.log("POUT")
+    this.socket.emit('vote', { left: left })
+  }
+
+
+  /**
+   * LISTENERS
+   */
+
+  listenRound(callbackFn: Function) {
+    this.socket.on("round", callbackFn)
+  }
+
+  listenVotes(callbackFn: Function) {
+    this.socket.on("vote", callbackFn)
+  }
 
 
 }
