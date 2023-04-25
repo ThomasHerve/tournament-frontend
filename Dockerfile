@@ -4,11 +4,11 @@ COPY package*.json /app/
 RUN npm install -g nx
 RUN npm install --legacy-peer-deps
 COPY ./ /app/
-RUN nx build --prod -- --output-path=./dist/out
+RUN export NX_DAEMON=false; nx build --prod
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.17.1-alpine
 #Copy ci-dashboard-dist
-COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
+COPY --from=build-stage /app/www/ /usr/share/nginx/html
 #Copy default nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
