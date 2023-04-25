@@ -3,7 +3,7 @@ ARG arch=x64
 WORKDIR /app
 COPY package*.json /app/
 RUN npm install -g nx
-RUN if [[ "$arg" = "armhf" ]] ; then npm install -g --legacy-peer-deps @nrwl/nx-linux-arm-gnueabihf ; fi
+RUN if [ $arg = "armhf" ] ; then npm install -g --legacy-peer-deps @nrwl/nx-linux-arm-gnueabihf ; fi
 RUN npm install --legacy-peer-deps
 COPY ./ /app/
 RUN export NX_DAEMON=false; nx build --prod
