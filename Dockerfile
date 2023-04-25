@@ -1,10 +1,10 @@
 FROM node:16.18.0 as build-stage
 WORKDIR /app
 COPY package*.json /app/
-RUN npm install
+RUN npm install -g nx
+RUN npm install --legacy-peer-deps
 COPY ./ /app/
-ARG configuration=production
-RUN npm run build -- --output-path=./dist/out --configuration $configuration
+RUN nx build --prod -- --output-path=./dist/out
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.17.1-alpine
