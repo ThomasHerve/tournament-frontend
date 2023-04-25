@@ -1,10 +1,9 @@
 FROM node:16.18.0 as build-stage
 SHELL ["/bin/bash", "-c"]
-ARG arch=x64
 WORKDIR /app
 COPY package*.json /app/
 RUN npm install -g nx
-RUN if [ "$arg" = "armhf" ] ; then npm install -g --legacy-peer-deps @nrwl/nx-linux-arm-gnueabihf ; fi
+RUN npm install -g --legacy-peer-deps @nrwl/nx-linux-arm-gnueabihf
 RUN npm install --legacy-peer-deps
 COPY ./ /app/
 RUN export NX_DAEMON=false; nx build --prod
