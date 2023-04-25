@@ -7,6 +7,9 @@ RUN npm install -g --legacy-peer-deps @nrwl/nx-linux-arm-gnueabihf
 RUN npm install --legacy-peer-deps
 RUN cp -r /usr/local/lib/node_modules/* node_modules
 COPY ./ /app/
+RUN ls /app/node_modules
+RUN ls /app/node_modules/@nrwl
+RUN ls /app/node_modules/@nrwl/nx-linux-arm-gnueabihf
 RUN export NX_DAEMON=false; nx build --prod
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
