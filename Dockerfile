@@ -5,6 +5,7 @@ COPY package*.json /app/
 RUN npm install -g nx
 RUN npm install -g --legacy-peer-deps @nrwl/nx-linux-arm-gnueabihf
 RUN npm install --legacy-peer-deps
+RUN cp -r /usr/local/lib/node_modules/* node_modules
 COPY ./ /app/
 RUN export NX_DAEMON=false; nx build --prod
 
