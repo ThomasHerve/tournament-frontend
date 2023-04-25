@@ -2,6 +2,7 @@ FROM node:16.18.0 as build-stage
 WORKDIR /app
 COPY package*.json /app/
 RUN npm install -g nx
+RUN npm install --legacy-peer-deps @nrwl/nx-linux-arm-gnueabihf
 RUN npm install --legacy-peer-deps
 COPY ./ /app/
 RUN export NX_DAEMON=false; nx build --prod
