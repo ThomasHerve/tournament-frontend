@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,7 @@ import { HeaderComponent } from "../shared/header/header.component";
 import { IonicModule } from '@ionic/angular';
 import { LobbyPage } from '../lobby/lobby.page';
 import { LobbyService } from '../services/lobby.service';
-import { PlayerDTO } from '../shared/DTO/playerDTO';
+import { PlayersCardComponent } from '../shared/players-card/players-card.component';
 import { UserComponent } from '../shared/user/user.component';
 
 @Component({
@@ -16,67 +16,69 @@ import { UserComponent } from '../shared/user/user.component';
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
+  imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent, PlayersCardComponent]
 })
 export class GamePage implements OnInit, AfterViewInit {
-  gameCode: string;
+  @ViewChild('resultModal') resultModal: HTMLIonModalElement | undefined;
+
   get tournamentPicked() { return LobbyPage.tournamentPicked! }
-
-  get players(): Array<PlayerDTO> { return LobbyPage._players }
-  set players(p: Array<PlayerDTO>) { LobbyPage._players = p }
-
-  username: string = "";
+  get isOwner() { return PlayersCardComponent.isOwner }
 
   entryLeft: EntryDTO = new EntryDTO()
   entryRight: EntryDTO = new EntryDTO()
 
-  labelLeft: string = "Vote !"
-  labelright: string = "Vote !"
 
-  message: string | null = "Waiting for launch ..."
+  messageResult: string | null = null
+  imageResult: string | null = null
+
 
   constructor(private route: ActivatedRoute, private lobbyService: LobbyService) {
     const gameId = this.route.snapshot.paramMap.get('id');
-    if (gameId) {
-      this.gameCode = gameId
-    }
-    else {
-      this.gameCode = "Waiting for code ..."
-    }
-    if (UserComponent.user)
-      this.username = UserComponent.user.username
+
   }
 
   ngOnInit() {
-    //Listeners
-    this.lobbyService.listenPlayers((value: any) => { this.players = value.players; console.log(value) })
-    this.lobbyService.listenRound(this.onRoundListener)
     this.lobbyService.listenVotes(this.onVoteListener)
-    this.lobbyService.listenErrors(console.log)
-
-    //Calls
-
   }
 
   ngAfterViewInit() {
-    const value = localStorage.getItem('gameFirstRound');
-    this.onRoundListener(value)
+    this.lobbyService.observeRound().subscribe(this.onRoundListener)
+  }
+
+  onVoteListener = (votes: any) => {
+    if (votes.result === 'left') {
+      this.messageResult = this.entryLeft.name + " has win the match with " + votes.left + " votes (vs. " + votes.right + ")"
+      this.imageResult = this.entryLeft.link
+    }
+    else {
+      this.messageResult = this.entryRight.name + " has win the match with " + votes.right + " votes (vs. " + votes.left + ")"
+      this.imageResult = this.entryRight.link
+    }
+
+    this.resultModal?.present()
+
   }
 
   onRoundListener(value: any) {
-    this.message = null
-    this.labelLeft = this.labelright = "Vote !"
     this.entryLeft = value.left
     this.entryRight = value.right
   }
 
-  onVoteListener(value: any) {
-    this.labelLeft = value.left
-    this.labelright = value.right
-  }
-
   vote(left: boolean) {
     this.lobbyService.vote(left)
+  }
+
+  skip() {
+    if (!this.isOwner)
+      return;
+
+    this.lobbyService.skip()
+  }
+
+
+
+  closeModal() {
+    this.resultModal?.dismiss()
   }
 
 }

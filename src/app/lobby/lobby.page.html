@@ -30,19 +30,7 @@
 						</ion-button>
 					</ion-card-header>
 					<ion-card-content>
-						<ion-card-title>Players</ion-card-title>
-						<ion-list>
-							<ion-item *ngFor="let player of players"
-								class="playerItem">
-								<ion-icon *ngIf="player.isOwner"
-									name="star"
-									slot="start"></ion-icon>
-								<ion-icon *ngIf="!player.isOwner"
-									name="remove-outline"
-									slot="start"></ion-icon>
-								{{player.name}}
-							</ion-item>
-						</ion-list>
+						<app-players-card></app-players-card>
 					</ion-card-content>
 				</ion-card>
 			</ion-col>

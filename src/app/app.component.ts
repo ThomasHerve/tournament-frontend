@@ -1,7 +1,6 @@
 import { IonicModule, ToastController } from '@ionic/angular';
 
 import { Component } from '@angular/core';
-import { User } from 'firebase/auth';
 import { UserComponent } from './shared/user/user.component';
 
 @Component({

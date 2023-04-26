@@ -1,3 +1,5 @@
+import { Observable, ReplaySubject, Subject } from 'rxjs';
+
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
@@ -8,7 +10,41 @@ import { UserComponent } from '../shared/user/user.component';
 })
 export class LobbyService {
 
-  constructor(private socket: Socket) { }
+  private playersSubject = new Subject<any>();
+  private ownerSubject = new Subject<void>();
+
+  private roundSubject = new ReplaySubject<any>(1);
+
+
+  constructor(private socket: Socket) {
+    this.listenPlayers((value: any) => this.playersSubject.next(value.players))
+    this.listenOwner(() => this.ownerSubject.next())
+    this.listenRound((value: any) => this.roundSubject.next(value))
+  }
+
+
+  //#region "Common"
+  /**
+   * LISTENERS
+   */
+  private listenPlayers(callbackFn: Function) {
+    this.socket.on("players", callbackFn)
+  }
+  observePlayers(): Observable<any> {
+    return this.playersSubject.asObservable()
+  }
+
+  private listenOwner(callbackFn: Function) {
+    this.socket.on("owner", callbackFn)
+  }
+  observeOwner() {
+    return this.ownerSubject.asObservable()
+  }
+
+  listenErrors(callbackFn: Function) {
+    this.socket.on("error", callbackFn)
+  }
+  //#endregion
 
   //#region "Lobby"
   /**
@@ -45,26 +81,14 @@ export class LobbyService {
   /**
    * LISTENERS
    */
-  listenPlayers(callbackFn: Function) {
-    this.socket.on("players", callbackFn)
-  }
-
   listenTournament(callbackFn: Function) {
     this.socket.on("tournament", callbackFn)
   }
 
-  listenOwner(callbackFn: Function) {
-    this.socket.on("owner", callbackFn)
-  }
-
   listenStart(callbackFn: Function) {
-    console.log("POUT")
     this.socket.on("start", callbackFn)
   }
 
-  listenErrors(callbackFn: Function) {
-    this.socket.on("error", callbackFn)
-  }
   //#endregion
 
 
@@ -74,17 +98,22 @@ export class LobbyService {
    */
 
   vote(left: boolean) {
-    console.log("POUT")
     this.socket.emit('vote', { left: left })
   }
 
+  skip() {
+    this.socket.emit('skip')
+  }
 
   /**
    * LISTENERS
    */
 
-  listenRound(callbackFn: Function) {
+  private listenRound(callbackFn: Function) {
     this.socket.on("round", callbackFn)
+  }
+  observeRound() {
+    return this.roundSubject.asObservable()
   }
 
   listenVotes(callbackFn: Function) {

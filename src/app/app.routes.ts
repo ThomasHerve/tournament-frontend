@@ -1,3 +1,4 @@
+import { GameGuard } from './game/game.guard';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -29,7 +30,8 @@ export const routes: Routes = [
   ,
   {
     path: 'game/:id',
-    loadComponent: () => import('./game/game.page').then(m => m.GamePage)
+    loadComponent: () => import('./game/game.page').then(m => m.GamePage),
+    canActivate: [GameGuard]
   }
 
 
