@@ -31,6 +31,7 @@ export class GamePage implements OnInit, AfterViewInit {
   messageResult: string | null = null
   imageResult: string | null = null
 
+  ended = false;
 
   constructor(private route: ActivatedRoute, private lobbyService: LobbyService) {
     const gameId = this.route.snapshot.paramMap.get('id');
@@ -39,6 +40,7 @@ export class GamePage implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.lobbyService.listenVotes(this.onVoteListener)
+    this.lobbyService.listenEnd(this.onEndListener)
   }
 
   ngAfterViewInit() {
@@ -59,16 +61,33 @@ export class GamePage implements OnInit, AfterViewInit {
 
   }
 
-  onRoundListener(value: any) {
+  onRoundListener = (value: any) => {
     this.entryLeft = value.left
     this.entryRight = value.right
   }
 
+  onEndListener = (value: any) => {
+    this.ended = true;
+    this.messageResult = value.name + " has win the game !"
+    this.imageResult = value.name
+    this.resultModal?.present()
+  }
+
   vote(left: boolean) {
+    if (this.ended) {
+      this.resultModal?.present()
+      return
+    }
+
     this.lobbyService.vote(left)
   }
 
   skip() {
+    if (this.ended) {
+      this.resultModal?.present()
+      return
+    }
+
     if (!this.isOwner)
       return;
 

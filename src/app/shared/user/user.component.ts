@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule, PopoverController, ToastController } from '@ionic/angular';
 
 import { AppComponent } from 'src/app/app.component';
+import { Router } from '@angular/router';
 import { UserDTO } from '../DTO/userDTO';
 
 @Component({
@@ -38,15 +39,17 @@ export class UserComponent implements OnInit {
   }
 
 
-  constructor(private popoverController: PopoverController) {
+  constructor(private router:Router, private popoverController: PopoverController) {
     UserComponent.instance = this;
   }
 
   ngOnInit() { }
 
   logout() {
-    this.popoverController.dismiss().then(() =>
+    this.popoverController.dismiss().then(() => {
       this.user = null
+      this.router.navigateByUrl('Home')
+    }
     );
   }
 

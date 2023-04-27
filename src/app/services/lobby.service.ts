@@ -23,6 +23,7 @@ export class LobbyService {
   }
 
 
+
   //#region "Common"
   /**
    * LISTENERS
@@ -45,6 +46,7 @@ export class LobbyService {
     this.socket.on("error", callbackFn)
   }
   //#endregion
+
 
   //#region "Lobby"
   /**
@@ -92,6 +94,7 @@ export class LobbyService {
   //#endregion
 
 
+
   //#region "Game"
   /**
    * CALLERS
@@ -120,5 +123,9 @@ export class LobbyService {
     this.socket.on("vote", callbackFn)
   }
 
+  listenEnd(callbackFn: Function) {
+    this.socket.on('end', callbackFn)
+  }
+  //#endregion
 
 }
