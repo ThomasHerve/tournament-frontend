@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule, PopoverController, ToastController } from '@ionic/angular';
+import { IonicModule, PopoverController } from '@ionic/angular';
 
 import { AppComponent } from 'src/app/app.component';
 import { Router } from '@angular/router';
@@ -39,7 +39,7 @@ export class UserComponent implements OnInit {
   }
 
 
-  constructor(private router:Router, private popoverController: PopoverController) {
+  constructor(private router: Router, private popoverController: PopoverController) {
     UserComponent.instance = this;
   }
 
