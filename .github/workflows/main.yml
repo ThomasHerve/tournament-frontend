@@ -40,7 +40,7 @@ jobs:
       run: docker -H ssh://odroid@${{secrets.ODROID_IP}} build --pull -t ${{secrets.DOCKER_LOGIN}}/tournament-frontend --output type=registry .
 
     - name: update docker compose
-      run: docker -H ssh://odroid@${{secrets.ODROID_IP}} compose pull --force-recreate
+      run: docker -H ssh://odroid@${{secrets.ODROID_IP}} compose pull
 
     - name: deploy docker compose
-      run: docker -H ssh://odroid@${{secrets.ODROID_IP}} compose up -d
+      run: docker -H ssh://odroid@${{secrets.ODROID_IP}} compose up -d --force-recreate
