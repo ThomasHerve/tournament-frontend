@@ -95,7 +95,8 @@ export class LobbyPage implements OnInit {
 
 
   copyToClipboard() {
-    navigator.clipboard.writeText(this.lobbyCode);
+    console.log(window.location.hostname)
+    navigator.clipboard.writeText(window.location.hostname + this.router.url + "/" + this.lobbyCode);
     AppComponent.presentOkToast("Code Copied")
   }
 
