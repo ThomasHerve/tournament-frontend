@@ -25,11 +25,17 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+@media (prefers-color-scheme: light) {
 
 ion-content {
-  --background:linear-gradient(to top right, #7fffff , #ffffff);
+  --background:linear-gradient(to top right, #53aee2 , #ffffff);
 }
 
 ion-accordion {
   background-color: transparent;
+}
+
+ion-toolbar{
+  --background:linear-gradient(to  right, #cbe3f1 , #ffffff);
+}
 }
