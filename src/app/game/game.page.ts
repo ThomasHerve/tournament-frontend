@@ -69,7 +69,7 @@ export class GamePage implements OnInit, AfterViewInit {
   onEndListener = (value: any) => {
     this.ended = true;
     this.messageResult = value.name + " has win the game !"
-    this.imageResult = value.name
+    this.imageResult = value.link
     this.resultModal?.present()
   }
 

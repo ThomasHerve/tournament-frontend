@@ -22,10 +22,15 @@
 					</ion-card-title>
 				</ion-card-header>
 				<ion-card-content>
-					<ion-input [(ngModel)]="gameCode"
+					<ion-input #gameCodeInput="ngModel"
+						[(ngModel)]="gameCode"
 						label="Code de la partie"
-						labelPlacement="floating"></ion-input>
+						labelPlacement="floating"
+						minlength="6"
+						maxlength="6"
+						required></ion-input>
 					<ion-button [routerLink]="['/Lobby',gameCode]"
+						[disabled]="gameCodeInput.invalid"
 						expand="block"
 						color="primary">
 						Rejoindre
