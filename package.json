@@ -76,7 +76,7 @@
     "typescript": "~4.8.4"
   },
   "optionalDependencies": {
-    "@nrwl/nx-linux-arm-gnueabihf":"^15.8.5"
+    "@nrwl/nx-linux-arm-gnueabihf": "^15.8.5"
   },
   "description": "An Ionic project"
 }
