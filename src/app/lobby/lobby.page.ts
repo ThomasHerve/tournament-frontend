@@ -46,7 +46,7 @@ export class LobbyPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    if (this.router.url.startsWith('/Game'))
+    if (this.router.url.startsWith('/game'))
       return
     this.lobbyService.leave()
   }
@@ -99,7 +99,7 @@ export class LobbyPage implements OnInit {
 
   copyToClipboard() {
     console.log(window.location.hostname)
-    navigator.clipboard.writeText(window.location.hostname + this.router.url + "/" + this.lobbyCode);
+    navigator.clipboard.writeText("https://" + window.location.hostname + this.router.url + "/" + this.lobbyCode);
     AppComponent.presentOkToast("Code Copied")
   }
 
