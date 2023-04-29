@@ -11,7 +11,7 @@ export class GameGuard {
 
   canActivate(): boolean {
     if (LobbyPage.tournamentPicked === null) {
-      this.router.navigate(['/Home']);
+      this.router.navigate(['/home']);
       return false;
     }
     return true;

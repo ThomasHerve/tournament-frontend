@@ -6,7 +6,7 @@
 					<ion-card-title>Héberger une partie</ion-card-title>
 				</ion-card-header>
 				<ion-card-content>
-					<ion-button [routerLink]="['/Lobby']"
+					<ion-button [routerLink]="['/lobby']"
 						expand="block"
 						color="primary">
 						Créer une partie
@@ -29,7 +29,7 @@
 						minlength="6"
 						maxlength="6"
 						required></ion-input>
-					<ion-button [routerLink]="['/Lobby',gameCode]"
+					<ion-button [routerLink]="['/lobby',gameCode]"
 						[disabled]="gameCodeInput.invalid"
 						expand="block"
 						color="primary">

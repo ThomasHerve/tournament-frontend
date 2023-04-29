@@ -36,18 +36,18 @@ export class EditorHomePage implements OnInit {
 
 
   newTournament() {
-    this.router.navigateByUrl('/Editor/New');
+    this.router.navigateByUrl('/editor/new');
   }
 
   newSharedTournament() {
   }
 
   loadLocalTournament() {
-    this.router.navigateByUrl('/Editor/Local');
+    this.router.navigateByUrl('/editor/local');
   }
 
   loadTournament(dto: TournamentDescriptorDTO) {
-    this.router.navigateByUrl('/Editor/' + dto.id);
+    this.router.navigateByUrl('/editor/' + dto.id);
   }
 
 

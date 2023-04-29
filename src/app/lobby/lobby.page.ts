@@ -34,7 +34,7 @@ export class LobbyPage implements OnInit {
     const lobbyId = this.route.snapshot.paramMap.get('id');
     if (lobbyId) {
       this.lobbyCode = lobbyId
-      lobbyService.join(lobbyId, (value: any) => { console.log(value); if (value.tournament_id) this.retreiveTournamentPicked(value.tournament_id); else this.onLobbyDontExist() })
+      lobbyService.join(lobbyId, (value: any) => { console.log(value); if (value.id) this.retreiveTournamentPicked(value.tournament_id); else this.onLobbyDontExist() })
     }
     else {
       this.lobbyCode = "Waiting for code ..."
@@ -44,7 +44,10 @@ export class LobbyPage implements OnInit {
     if (UserComponent.user)
       this.username = UserComponent.user.username
   }
+
   ionViewWillLeave() {
+    if (this.router.url.startsWith('/Game'))
+      return
     this.lobbyService.leave()
   }
 
@@ -73,7 +76,7 @@ export class LobbyPage implements OnInit {
 
   onLobbyDontExist() {
     AppComponent.presentWarningToast("Lobby does not exists")
-    this.router.navigateByUrl('Home')
+    this.router.navigateByUrl('home')
   }
 
   pickTournament(t: TournamentDescriptorDTO) {
