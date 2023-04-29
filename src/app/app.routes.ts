@@ -29,7 +29,7 @@ export const routes: Routes = [
   }
   ,
   {
-    path: 'game/:id',
+    path: 'Game/:id',
     loadComponent: () => import('./game/game.page').then(m => m.GamePage),
     canActivate: [GameGuard]
   }
