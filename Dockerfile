@@ -16,3 +16,4 @@ COPY --from=build-stage /app/www/ /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /etc/ssl
 COPY  ./certs/* /etc/ssl/
+RUN cat /etc/ssl/ca_bundle.crt /etc/ssl/certificate.crt > /etc/ssl/bundle.crt
