@@ -1,5 +1,9 @@
 <app-header [title]="tournamentPicked.title"></app-header>
 
+
+
+
+
 <ion-content [fullscreen]="true">
 	<ion-grid class="cardGrid">
 		<ion-row>
@@ -7,7 +11,9 @@
 				<ion-card>
 					<ion-card-header>
 						<ion-card-title>
-							<ion-button (click)="vote(true)"
+							<ion-button [disabled]="hasVotedLeft !== null"
+								[color]=" hasVotedLeft === true?'success':''"
+								(click)="vote(true)"
 								size="large"
 								expand="block">
 								{{entryLeft.name}}
@@ -23,14 +29,20 @@
 				size-md="2">
 				<app-players-card></app-players-card>
 				<ion-card *ngIf="isOwner">
-					<ion-button (click)="skip()">End votes</ion-button>
+					<ion-button (click)="skip()"
+						expand="block"
+						fill="outline">
+						End votes
+					</ion-button>
 				</ion-card>
 			</ion-col>
 			<ion-col>
 				<ion-card>
 					<ion-card-header>
 						<ion-card-title>
-							<ion-button (click)="vote(false)"
+							<ion-button [disabled]="hasVotedLeft !== null"
+								[color]="hasVotedLeft === false?'success':''"
+								(click)="vote(false)"
 								size="large"
 								expand="block">
 								{{entryRight.name}}
@@ -39,14 +51,16 @@
 					</ion-card-header>
 					<ion-card-content>
 						<ion-img [src]="entryRight.link"></ion-img>
-
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
 		</ion-row>
 	</ion-grid>
-
 </ion-content>
+
+
+
+
 
 <ion-modal #resultModal>
 	<ng-template>

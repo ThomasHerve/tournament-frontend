@@ -31,6 +31,7 @@ export class GamePage implements OnInit, AfterViewInit {
   messageResult: string | null = null
   imageResult: string | null = null
 
+  hasVotedLeft: boolean | null = null
   ended = false;
 
   constructor(private route: ActivatedRoute, private lobbyService: LobbyService) {
@@ -45,6 +46,10 @@ export class GamePage implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.lobbyService.observeRound().subscribe(this.onRoundListener)
+  }
+
+  onHasVotedListener = (confirmation: any) => {
+    this.hasVotedLeft = confirmation.left
   }
 
   onVoteListener = (votes: any) => {
@@ -64,10 +69,13 @@ export class GamePage implements OnInit, AfterViewInit {
   onRoundListener = (value: any) => {
     this.entryLeft = value.left
     this.entryRight = value.right
+    this.hasVotedLeft = null
   }
 
   onEndListener = (value: any) => {
     this.ended = true;
+    this.entryLeft = value
+    this.entryRight = value.right
     this.messageResult = value.name + " has win the game !"
     this.imageResult = value.link
     this.resultModal?.present()
@@ -79,7 +87,7 @@ export class GamePage implements OnInit, AfterViewInit {
       return
     }
 
-    this.lobbyService.vote(left)
+    this.lobbyService.vote(left, this.onHasVotedListener)
   }
 
   skip() {

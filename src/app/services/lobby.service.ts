@@ -100,7 +100,8 @@ export class LobbyService {
    * CALLERS
    */
 
-  vote(left: boolean) {
+  vote(left: boolean, callbackFn: Function) {
+    this.socket.on("voted", callbackFn)
     this.socket.emit('vote', { left: left })
   }
 
