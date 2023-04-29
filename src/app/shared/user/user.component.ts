@@ -48,7 +48,7 @@ export class UserComponent implements OnInit {
   logout() {
     this.popoverController.dismiss().then(() => {
       this.user = null
-      this.router.navigateByUrl('Home')
+      this.router.navigateByUrl('home')
     }
     );
   }

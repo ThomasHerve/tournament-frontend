@@ -54,7 +54,7 @@ export class LobbyPage implements OnInit {
   ngOnInit() {
     //Listeners
     this.lobbyService.listenTournament((value: any) => this.retreiveTournamentPicked(value.tournament_id))
-    this.lobbyService.listenStart(() => this.router.navigate(['/Game/' + this.lobbyCode]));
+    this.lobbyService.listenStart(() => this.router.navigate(['/game/' + this.lobbyCode]));
 
     this.lobbyService.listenErrors(console.log)
 
@@ -76,7 +76,7 @@ export class LobbyPage implements OnInit {
 
   onLobbyDontExist() {
     AppComponent.presentWarningToast("Lobby does not exists")
-    this.router.navigateByUrl('Home')
+    this.router.navigateByUrl('home')
   }
 
   pickTournament(t: TournamentDescriptorDTO) {

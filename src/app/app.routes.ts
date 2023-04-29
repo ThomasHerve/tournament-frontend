@@ -4,32 +4,32 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'Home',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
-    path: 'Home',
+    path: 'home',
     loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },
   {
-    path: 'Editor',
+    path: 'editor',
     loadComponent: () => import('./editorHome/editorhome.page').then(m => m.EditorHomePage)
   },
   {
-    path: 'Editor/:id',
+    path: 'editor/:id',
     loadComponent: () => import('./editor/editor.page').then(m => m.EditorPage)
   },
   {
-    path: 'Lobby',
+    path: 'lobby',
     loadComponent: () => import('./lobby/lobby.page').then(m => m.LobbyPage)
   },
   {
-    path: 'Lobby/:id',
+    path: 'lobby/:id',
     loadComponent: () => import('./lobby/lobby.page').then(m => m.LobbyPage)
   }
   ,
   {
-    path: 'Game/:id',
+    path: 'game/:id',
     loadComponent: () => import('./game/game.page').then(m => m.GamePage),
     canActivate: [GameGuard]
   }
