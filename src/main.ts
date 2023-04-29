@@ -13,7 +13,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-const config: SocketIoConfig = { url: 'http://90.66.62.181:3000', options: {} };
+const config: SocketIoConfig = { url: 'https://multiplayertournamentonline.fr:3000', options: {} };
 
 
 bootstrapApplication(AppComponent, {
