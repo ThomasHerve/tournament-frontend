@@ -16,6 +16,9 @@ export class AppComponent {
   static presentOkToast(message: string) {
     AppComponent.appInstance.presentOkToast(message)
   }
+  static presentWarningToast(message: string) {
+    AppComponent.appInstance.presentWarningToast(message)
+  }
 
   constructor(private toastController: ToastController) {
     AppComponent.appInstance = this;
@@ -32,4 +35,12 @@ export class AppComponent {
     toast.present();
   }
 
+  async presentWarningToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      color: 'warning'
+    });
+    toast.present();
+  }
 }

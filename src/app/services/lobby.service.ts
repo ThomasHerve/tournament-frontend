@@ -54,14 +54,14 @@ export class LobbyService {
    */
   create(callbackFn: Function) {
     const username = UserComponent.user ? UserComponent.user.username : "HostPlayer"
-    this.socket.emit('create', { name: username })
     this.socket.on("create", callbackFn)
+    this.socket.emit('create', { name: username })
   }
 
   join(code: string, callbackFn: Function) {
     const username = UserComponent.user ? UserComponent.user.username : "Player"
-    this.socket.emit('join', { name: username, id: code })
     this.socket.on('join', callbackFn)
+    this.socket.emit('join', { name: username, id: code })
   }
 
   changeName(name: string) {

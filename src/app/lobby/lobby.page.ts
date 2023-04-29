@@ -1,4 +1,4 @@
-import { ActivatedRoute, CanActivate, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit, } from '@angular/core';
 
 import { AppComponent } from '../app.component';
@@ -34,7 +34,7 @@ export class LobbyPage implements OnInit {
     const lobbyId = this.route.snapshot.paramMap.get('id');
     if (lobbyId) {
       this.lobbyCode = lobbyId
-      lobbyService.join(lobbyId, (value: any) => this.retreiveTournamentPicked(value.tournament_id))
+      lobbyService.join(lobbyId, (value: any) => { console.log(value); if (value.tournament_id) this.retreiveTournamentPicked(value.tournament_id); else this.onLobbyDontExist() })
     }
     else {
       this.lobbyCode = "Waiting for code ..."
@@ -43,6 +43,9 @@ export class LobbyPage implements OnInit {
     }
     if (UserComponent.user)
       this.username = UserComponent.user.username
+  }
+  ionViewWillLeave() {
+    this.lobbyService.leave()
   }
 
   ngOnInit() {
@@ -57,6 +60,8 @@ export class LobbyPage implements OnInit {
 
   }
 
+
+
   canActivate() {
     return true
   }
@@ -64,6 +69,11 @@ export class LobbyPage implements OnInit {
   onSearchInput(event: any) {
     const searchTerm = event.target.value;
     this.tournamentService.getAllTournamentDescriptorsWithFilters(searchTerm).subscribe(value => this.tournamentList = value);
+  }
+
+  onLobbyDontExist() {
+    AppComponent.presentWarningToast("Lobby does not exists")
+    this.router.navigateByUrl('Home')
   }
 
   pickTournament(t: TournamentDescriptorDTO) {
@@ -85,8 +95,12 @@ export class LobbyPage implements OnInit {
 
 
   copyToClipboard() {
-    navigator.clipboard.writeText(this.lobbyCode);
+    console.log(window.location.hostname)
+    navigator.clipboard.writeText(window.location.hostname + this.router.url + "/" + this.lobbyCode);
     AppComponent.presentOkToast("Code Copied")
   }
+
+
+
 
 }
