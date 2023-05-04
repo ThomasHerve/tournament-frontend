@@ -5,7 +5,7 @@
 
 
 <ion-content [fullscreen]="true">
-	<ion-grid class="cardGrid">
+	<ion-grid class="cardGrid" *ngIf="!ended">
 		<ion-row>
 			<ion-col>
 				<ion-card>
