@@ -34,6 +34,8 @@ export class GamePage implements OnInit, AfterViewInit {
   hasVotedLeft: boolean | null = null
   ended = false;
 
+  currentElement: EntryDTO | null = null
+
   constructor(private route: ActivatedRoute, private lobbyService: LobbyService) {
     const gameId = this.route.snapshot.paramMap.get('id');
 
@@ -49,7 +51,9 @@ export class GamePage implements OnInit, AfterViewInit {
   }
 
   onHasVotedListener = (confirmation: any) => {
-    this.hasVotedLeft = confirmation.left
+    if(this.currentElement === this.entryLeft) {
+      this.hasVotedLeft = confirmation.left
+    }
   }
 
   onVoteListener = (votes: any) => {
@@ -87,6 +91,7 @@ export class GamePage implements OnInit, AfterViewInit {
       return
     }
 
+    this.currentElement = this.entryLeft
     this.lobbyService.vote(left, this.onHasVotedListener)
   }
 
