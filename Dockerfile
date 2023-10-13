@@ -15,5 +15,5 @@ COPY --from=build-stage /app/www/ /usr/share/nginx/html
 #Copy default nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /etc/ssl
-COPY  ./certs/* /etc/ssl/
-RUN cat /etc/ssl/certificate.crt /etc/ssl/ca_bundle.crt > /etc/ssl/bundle.crt
+#COPY  ./certs/* /etc/ssl/
+#RUN cat /etc/ssl/certificate.crt /etc/ssl/ca_bundle.crt > /etc/ssl/bundle.crt
