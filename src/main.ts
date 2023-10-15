@@ -6,14 +6,14 @@ import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { AppComponent } from './app/app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { environment, api_url } from './environments/environment';
+import { environment } from './environments/environment';
 import { routes } from './app/app.routes';
 
 if (environment.production) {
   enableProdMode();
 }
 
-const config: SocketIoConfig = { url: api_url, options: {} };
+const config: SocketIoConfig = { url: "http://backend.multiplayertournamentonline.fr", options: {} };
 
 
 bootstrapApplication(AppComponent, {
