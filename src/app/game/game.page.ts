@@ -74,6 +74,7 @@ export class GamePage implements OnInit, AfterViewInit {
     this.entryLeft = value.left
     this.entryRight = value.right
     this.hasVotedLeft = null
+    PlayersCardComponent.clearVotes()
   }
 
   onEndListener = (value: any) => {

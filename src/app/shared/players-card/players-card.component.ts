@@ -28,4 +28,9 @@ export class PlayersCardComponent implements OnInit {
     this.lobbyService.observeOwner().subscribe(() => PlayersCardComponent.isOwner = true)
   }
 
+  static clearVotes(){
+    PlayersCardComponent._players.forEach(element => {
+      element.hasVoted = false
+    });
+  }
 }
