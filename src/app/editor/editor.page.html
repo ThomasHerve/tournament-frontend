@@ -1,15 +1,24 @@
 <app-header title="Edit your tournament"></app-header>
 <ion-toolbar>
 	<ion-buttons slot="start">
-		<ion-back-button default-href="#"></ion-back-button>
+		<ion-back-button defaultHref="editor"></ion-back-button>
 		<ion-button (click)="saveInCloud()">
 			<ion-icon slot="icon-only"
 				name="save-outline"></ion-icon>
 		</ion-button>
+		<ion-item>
+			<ion-badge color="secondary">
+				cloud save : {{formatElapsedTime(lastcloudsave)}}
+			</ion-badge>
+		</ion-item>
+		<ion-item>
+			<ion-badge color="tertiary">
+				local save : {{formatElapsedTime(lastlocalsave)}}
+			</ion-badge>
+		</ion-item>
 	</ion-buttons>
 </ion-toolbar>
-
-
+<!-- Items -->
 <ion-content fullscreen="true">
 	<ion-card class="cardtitle">
 		<ion-grid>
@@ -39,8 +48,6 @@
 			</ion-row>
 		</ion-grid>
 	</ion-card>
-
-
 	<ion-card *ngFor="let entry of tournament.entries; let i=index"
 		class="entryCard">
 		<ion-card-content>
@@ -73,7 +80,7 @@
 			</ion-grid>
 		</ion-card-content>
 	</ion-card>
-
+	<!-- Card + et import export -->
 	<ion-card (click)="addEntry()"
 		class="cardplus">
 		<ion-icon name="add"></ion-icon>
