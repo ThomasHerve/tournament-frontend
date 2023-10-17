@@ -13,7 +13,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-const config: SocketIoConfig = { url: "http://backend.multiplayertournamentonline.fr", options: {} };
+const config: SocketIoConfig = { url: "https://backend.multiplayertournamentonline.fr", options: {} };
 
 
 bootstrapApplication(AppComponent, {

@@ -1,8 +1,21 @@
+.cardimport {
+  display: flex;
+  justify-content: center;
+  font-size: 3rem;
+  border: dashed  2px rgb(53, 53, 53);
+  width: 100%;
+}
+
 .cardplus{
   display: flex;
   justify-content: center;
   font-size: 3rem;
   border: dashed  2px rgb(53, 53, 53);
+}
+
+.flexrow {
+  display: flex;
+  flex-direction: row;
 }
 
 .cardtitle ion-input, ion-textarea {

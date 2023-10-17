@@ -71,4 +71,12 @@ export class EditorPage implements OnInit {
     this.tournament.entries.splice(index, 1)
   }
 
+  import() {
+    //let tournament = 
+  }
+
+  export() {
+
+  }
+
 }

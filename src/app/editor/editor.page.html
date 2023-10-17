@@ -72,13 +72,20 @@
 				</ion-row>
 			</ion-grid>
 		</ion-card-content>
-
-
 	</ion-card>
-
 
 	<ion-card (click)="addEntry()"
 		class="cardplus">
 		<ion-icon name="add"></ion-icon>
 	</ion-card>
+	<div class="flexrow">
+		<ion-card (click)="import()"
+			class="cardimport">
+			<ion-icon name="cloud-download-outline"></ion-icon>
+		</ion-card>
+		<ion-card (click)="export()"
+			class="cardimport">
+			<ion-icon name="cloud-upload-outline"></ion-icon>
+		</ion-card>
+	</div>
 </ion-content>
