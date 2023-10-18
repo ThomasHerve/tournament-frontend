@@ -70,7 +70,7 @@ export class EditorPage implements OnInit {
   saveInCloud() {
     if (this.tournament.id == -1) {
       console.log("trying to add")
-      this.editorService.addTournament(this.tournament).subscribe((data) => { console.log(data); localStorage.removeItem('localTournament'); this.router.navigateByUrl('/editor' + data); this.lastcloudsave = new Date(); });
+      this.editorService.addTournament(this.tournament).subscribe((data) => { localStorage.removeItem('localTournament'); this.router.navigateByUrl('/editor/' + data.id, { replaceUrl: true }); this.lastcloudsave = new Date(); });
     } else {
       console.log("trying to update " + this.tournament.id)
       this.editorService.updateTournament(this.tournament).subscribe(() => { localStorage.removeItem('localTournament'); this.lastcloudsave = new Date(); });

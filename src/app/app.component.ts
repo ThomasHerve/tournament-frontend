@@ -1,7 +1,9 @@
 import { AlertController, IonicModule, ToastController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
 
-import { Component } from '@angular/core';
 import { UserComponent } from './shared/user/user.component';
+import { UserDTO } from './shared/DTO/userDTO';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,7 @@ import { UserComponent } from './shared/user/user.component';
   standalone: true,
   imports: [IonicModule],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   static appInstance: AppComponent;
 
   static presentOkToast(message: string) {
@@ -24,11 +26,17 @@ export class AppComponent {
     return AppComponent.appInstance.presentAlertPrompt(message)
   }
 
-  constructor(private toastController: ToastController, private alertController: AlertController) {
+  constructor(private toastController: ToastController, private alertController: AlertController, private userService: UserService) {
     AppComponent.appInstance = this;
     UserComponent.cacheLoadUser();
   }
 
+  ngOnInit() {
+    console.log(UserComponent.user?.password)
+    if (UserComponent.user)
+      this.userService.loginUser(new UserDTO({ username: UserComponent.user.email, password: UserComponent.user.password })).subscribe(value => UserComponent.user = value);
+
+  }
 
   async presentAlertPrompt(message: string): Promise<boolean> {
     return new Promise<boolean>(async (resolve) => {
