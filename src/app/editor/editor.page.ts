@@ -1,6 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 
+import { AppComponent } from '../app.component';
 import { CommonModule } from '@angular/common';
 import { EditorService } from './../services/editor.service';
 import { EntryDTO } from '../shared/DTO/entryDTO';
@@ -123,5 +124,11 @@ export class EditorPage implements OnInit {
     } else {
       return 'Never';
     }
+  }
+
+  async deleteTournament() {
+    if (!await AppComponent.presentAlertPrompt("Deletion is permanent ! Are you sure ?"))
+      return
+    this.editorService.deleteTournament(this.tournament.id).subscribe((data) => { if (data) this.router.navigateByUrl('/editor') })
   }
 }

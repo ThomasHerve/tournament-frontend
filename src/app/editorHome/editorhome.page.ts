@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AppComponent } from '../app.component';
 import { CommonModule } from '@angular/common';
 import { EditorService } from '../services/editor.service';
 import { FormsModule } from '@angular/forms';
@@ -19,11 +20,15 @@ import { actionSheetController } from '@ionic/core';
   imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent]
 })
 export class EditorHomePage implements OnInit {
+  readonly input: HTMLInputElement;
+
   ownedDescriptors: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
   localDescriptor: TournamentDescriptorDTO | null = null;
-  sharedDescriptor: TournamentDescriptorDTO | null = null;
 
   constructor(private router: Router, private tournamentService: TournamentService, private editorService: EditorService) {
+    this.input = document.createElement('input')
+    this.input.type = 'file';
+    this.input.accept = '.json';
   }
 
   ngOnInit() {
@@ -31,47 +36,45 @@ export class EditorHomePage implements OnInit {
     if (json)
       this.localDescriptor = JSON.parse(json);
 
-    const json2 = localStorage.getItem('sharedTournament');
-    if (json2)
-      this.sharedDescriptor = JSON.parse(json2);
 
     this.editorService.getAllTournamentsOfUser().subscribe(value => this.ownedDescriptors = value.sort((a, b) => a.id - b.id));
-
-    document.getElementById('fileInput')?.addEventListener('change', this.handleFileSelect);
   }
 
 
 
-  newTournament() {
+  async newTournament() {
+    if (this.localDescriptor && !await AppComponent.presentAlertPrompt("A tournament has not been saved in cloud. Creating a new one may erase it. Are you sure ?"))
+      return
     this.router.navigateByUrl('/editor/new');
   }
 
-  newSharedTournament() {
-    console.log(this.sharedDescriptor)
-    document.getElementById('fileInput')?.click();
+  async newSharedTournament() {
+    if (this.localDescriptor && !await AppComponent.presentAlertPrompt("A tournament has not been saved in cloud. Loading a new one may erase it. Are you sure ?"))
+      return
+
+    this.input.onchange = _ => {
+      if (this.input.files && this.input.files[0]) {
+        const reader = new FileReader();
+        const router = this.router;
+        reader.onload = function (event) {
+          const fileContent = event.target?.result?.toString()!;
+          localStorage.setItem('sharedTournament', fileContent);
+          router.navigateByUrl('/editor/shared');
+        };
+        reader.readAsText(this.input.files[0]);
+
+      }
+      this.input.value = ''
+    }
+    this.input.click();
   }
 
-  handleFileSelect(event: any) {
-    const selectedFile = event.target.files[0];
-    const self = this;
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const fileContent = event.target?.result?.toString()!;
-        self.sharedDescriptor = JSON.parse(fileContent)
-        localStorage.setItem('sharedTournament', fileContent);
-      };
-      reader.readAsText(selectedFile);
-    }
-  }
 
 
   loadLocalTournament() {
     this.router.navigateByUrl('/editor/local');
   }
-  loadSharedTournament() {
-    this.router.navigateByUrl('/editor/shared');
-  }
+
   loadTournament(dto: TournamentDescriptorDTO) {
     this.router.navigateByUrl('/editor/' + dto.id);
   }

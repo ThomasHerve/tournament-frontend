@@ -40,25 +40,6 @@
 				</ion-item>
 			</ion-card-content>
 		</ion-card>
-		<ion-card *ngIf="sharedDescriptor"
-			(click)="loadSharedTournament()"
-			class="basicCard localCard"
-			color="warning">
-			<ion-card-header>
-				<ion-text>Recently imported</ion-text>
-				<ion-card-title>
-					{{sharedDescriptor.title}}
-				</ion-card-title>
-			</ion-card-header>
-			<ion-card-content>
-				<ion-text>
-					{{sharedDescriptor.description}}
-				</ion-text>
-				<ion-item>
-					<ion-img [src]="sharedDescriptor.icon"></ion-img>
-				</ion-item>
-			</ion-card-content>
-		</ion-card>
 		<!-- Cartes -->
 		<ion-card *ngFor="let d of ownedDescriptors"
 			(click)="loadTournament(d)"
@@ -83,7 +64,3 @@
 		</ion-card>
 	</div>
 </ion-content>
-<input type="file"
-	id="fileInput"
-	style="display: none;"
-	accept=".json">

@@ -1,4 +1,4 @@
-import { IonicModule, ToastController } from '@ionic/angular';
+import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 
 import { Component } from '@angular/core';
 import { UserComponent } from './shared/user/user.component';
@@ -20,11 +20,39 @@ export class AppComponent {
     AppComponent.appInstance.presentWarningToast(message)
   }
 
-  constructor(private toastController: ToastController) {
+  static presentAlertPrompt(message: string): Promise<boolean> {
+    return AppComponent.appInstance.presentAlertPrompt(message)
+  }
+
+  constructor(private toastController: ToastController, private alertController: AlertController) {
     AppComponent.appInstance = this;
     UserComponent.cacheLoadUser();
   }
 
+
+  async presentAlertPrompt(message: string): Promise<boolean> {
+    return new Promise<boolean>(async (resolve) => {
+      const alert = await this.alertController.create({
+        header: message,
+        cssClass: 'custom-alert',
+        buttons: [
+          {
+            text: 'No',
+            role: 'cancel',
+            cssClass: 'alert-button-cancel',
+            handler: () => resolve(false),
+          },
+          {
+            text: 'Yes',
+            cssClass: 'alert-button-confirm',
+            handler: () => resolve(true),
+          },
+        ],
+      });
+
+      await alert.present();
+    })
+  }
 
   async presentOkToast(message: string) {
     const toast = await this.toastController.create({
