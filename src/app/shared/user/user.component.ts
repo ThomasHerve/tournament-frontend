@@ -42,6 +42,8 @@ export class UserComponent implements OnInit {
 
   constructor(private router: Router, private popoverController: PopoverController, private userService: UserService) {
     UserComponent.instance = this;
+    if (this.user)
+      this.autoReLogin()
   }
 
   ngOnInit() { }
@@ -58,11 +60,13 @@ export class UserComponent implements OnInit {
     const json = localStorage.getItem('user');
     if (json) {
       const user = JSON.parse(json);
-      UserComponent.instance.userService.loginUser(new UserDTO({ username: user.email, password: user.password })).subscribe(value => this.user = value);
-
+      UserComponent._user = user
     }
   }
 
+  autoReLogin() {
+    this.userService.loginUser(new UserDTO({ username: this.user!.email, password: this.user!.password })).subscribe(value => this.user = value);
+  }
 }
 
 
