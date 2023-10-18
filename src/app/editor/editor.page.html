@@ -2,6 +2,10 @@
 <ion-toolbar>
 	<ion-buttons slot="start">
 		<ion-back-button defaultHref="editor"></ion-back-button>
+		<ion-button (click)="export()">
+			<ion-icon slot="icon-only"
+				name="cloud-download-outline"></ion-icon>
+		</ion-button>
 		<ion-button (click)="saveInCloud()">
 			<ion-icon slot="icon-only"
 				name="save-outline"></ion-icon>
@@ -80,19 +84,9 @@
 			</ion-grid>
 		</ion-card-content>
 	</ion-card>
-	<!-- Card + et import export -->
+	<!-- Card + -->
 	<ion-card (click)="addEntry()"
 		class="cardplus">
 		<ion-icon name="add"></ion-icon>
 	</ion-card>
-	<div class="flexrow">
-		<ion-card (click)="import()"
-			class="cardimport">
-			<ion-icon name="cloud-download-outline"></ion-icon>
-		</ion-card>
-		<ion-card (click)="export()"
-			class="cardimport">
-			<ion-icon name="cloud-upload-outline"></ion-icon>
-		</ion-card>
-	</div>
 </ion-content>

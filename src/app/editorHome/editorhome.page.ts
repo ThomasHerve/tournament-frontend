@@ -21,6 +21,7 @@ import { actionSheetController } from '@ionic/core';
 export class EditorHomePage implements OnInit {
   ownedDescriptors: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
   localDescriptor: TournamentDescriptorDTO | null = null;
+  sharedDescriptor: TournamentDescriptorDTO | null = null;
 
   constructor(private router: Router, private tournamentService: TournamentService, private editorService: EditorService) {
   }
@@ -30,7 +31,13 @@ export class EditorHomePage implements OnInit {
     if (json)
       this.localDescriptor = JSON.parse(json);
 
+    const json2 = localStorage.getItem('sharedTournament');
+    if (json2)
+      this.sharedDescriptor = JSON.parse(json2);
+
     this.editorService.getAllTournamentsOfUser().subscribe(value => this.ownedDescriptors = value.sort((a, b) => a.id - b.id));
+
+    document.getElementById('fileInput')?.addEventListener('change', this.handleFileSelect);
   }
 
 
@@ -40,12 +47,31 @@ export class EditorHomePage implements OnInit {
   }
 
   newSharedTournament() {
+    console.log(this.sharedDescriptor)
+    document.getElementById('fileInput')?.click();
   }
+
+  handleFileSelect(event: any) {
+    const selectedFile = event.target.files[0];
+    const self = this;
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const fileContent = event.target?.result?.toString()!;
+        self.sharedDescriptor = JSON.parse(fileContent)
+        localStorage.setItem('sharedTournament', fileContent);
+      };
+      reader.readAsText(selectedFile);
+    }
+  }
+
 
   loadLocalTournament() {
     this.router.navigateByUrl('/editor/local');
   }
-
+  loadSharedTournament() {
+    this.router.navigateByUrl('/editor/shared');
+  }
   loadTournament(dto: TournamentDescriptorDTO) {
     this.router.navigateByUrl('/editor/' + dto.id);
   }

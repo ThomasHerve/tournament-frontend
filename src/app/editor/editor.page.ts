@@ -34,8 +34,15 @@ export class EditorPage implements OnInit {
       const json = localStorage.getItem('localTournament');
       if (json)
         this.tournament = JSON.parse(json);
+      this.lastlocalsave = new Date()
+    } else if (id == "shared") {
+      const json = localStorage.getItem('sharedTournament');
+      if (json)
+        this.tournament = JSON.parse(json);
+      localStorage.removeItem('sharedTournament')
     } else {
       tournamentService.getTournamentById(parseInt(id)).subscribe(value => this.tournament = value)
+      this.lastcloudsave = new Date()
     }
 
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -62,7 +69,7 @@ export class EditorPage implements OnInit {
   saveInCloud() {
     if (this.tournament.id == -1) {
       console.log("trying to add")
-      this.editorService.addTournament(this.tournament).subscribe(() => { localStorage.removeItem('localTournament'); this.router.navigateByUrl('/editor'); this.lastcloudsave = new Date(); });
+      this.editorService.addTournament(this.tournament).subscribe((data) => { console.log(data); localStorage.removeItem('localTournament'); this.router.navigateByUrl('/editor' + data); this.lastcloudsave = new Date(); });
     } else {
       console.log("trying to update " + this.tournament.id)
       this.editorService.updateTournament(this.tournament).subscribe(() => { localStorage.removeItem('localTournament'); this.lastcloudsave = new Date(); });
@@ -77,12 +84,15 @@ export class EditorPage implements OnInit {
     this.tournament.entries.splice(index, 1)
   }
 
-  import() {
-    //let tournament =
-  }
-
   export() {
+    const jsonString = JSON.stringify(this.tournament)
+    const blobURL = URL.createObjectURL(new Blob([jsonString], { type: 'application/json' }));
 
+    const dlink: HTMLAnchorElement = document.createElement('a');
+    dlink.href = blobURL;
+    dlink.download = this.tournament.creator + "_" + this.tournament.title;
+    dlink.click();
+    dlink.remove();
   }
 
 
