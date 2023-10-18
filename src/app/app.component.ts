@@ -32,9 +32,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(UserComponent.user?.password)
     if (UserComponent.user)
-      this.userService.loginUser(new UserDTO({ username: UserComponent.user.email, password: UserComponent.user.password })).subscribe(value => UserComponent.user = value);
+      this.userService.tryUserProfile();
+
+
 
   }
 

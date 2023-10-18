@@ -46,6 +46,10 @@ export class UserComponent implements OnInit {
 
   ngOnInit() { }
 
+  static removeUser() {
+    this.user = null
+  }
+
   logout() {
     this.popoverController.dismiss().then(() => {
       this.user = null
@@ -62,12 +66,6 @@ export class UserComponent implements OnInit {
     }
   }
 
-  static autoReLogin() {
-    this.instance.autoReLogin();
-  }
-  autoReLogin() {
-    this.userService.loginUser(new UserDTO({ username: this.user!.email, password: this.user!.password })).subscribe(value => this.user = value);
-  }
 }
 
 

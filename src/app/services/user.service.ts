@@ -4,6 +4,7 @@ import { Config } from 'src/app.config';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { UserComponent } from './../shared/user/user.component';
 import { UserDTO } from '../shared/DTO/userDTO';
 
 @Injectable({
@@ -38,6 +39,13 @@ export class UserService {
       catchError((error: any) => { throw this.handleError(error) })
     );
   }
+
+  tryUserProfile(): Observable<UserDTO> {
+    return this.http.get<UserDTO>(`${this.BASE_URL}/profile`).pipe(
+      catchError(() => { throw UserComponent.removeUser() })
+    );
+  }
+
 
   private handleError(error: any): any {
     this.presentErrorToast(error.message);
