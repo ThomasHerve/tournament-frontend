@@ -4,6 +4,7 @@ import { IonicModule, PopoverController } from '@ionic/angular';
 import { AppComponent } from 'src/app/app.component';
 import { Router } from '@angular/router';
 import { UserDTO } from '../DTO/userDTO';
+import { UserService } from './../../services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -39,7 +40,7 @@ export class UserComponent implements OnInit {
   }
 
 
-  constructor(private router: Router, private popoverController: PopoverController) {
+  constructor(private router: Router, private popoverController: PopoverController, private userService: UserService) {
     UserComponent.instance = this;
   }
 
@@ -55,11 +56,12 @@ export class UserComponent implements OnInit {
 
   static cacheLoadUser() {
     const json = localStorage.getItem('user');
-    if (json)
-      UserComponent._user = JSON.parse(json);
+    if (json) {
+      const user = JSON.parse(json);
+      UserComponent.instance.userService.loginUser(new UserDTO({ username: user.email, password: user.password })).subscribe(value => this.user = value);
+
+    }
   }
-
-
 
 }
 
