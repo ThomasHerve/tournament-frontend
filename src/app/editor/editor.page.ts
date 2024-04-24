@@ -97,6 +97,53 @@ export class EditorPage implements OnInit {
     dlink.remove();
   }
 
+  import() {
+        // Créer un élément input de type file
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '*'; // Vous pouvez spécifier un type de fichier spécifique si nécessaire
+    
+        // Écouter l'événement de changement (change event)
+        fileInput.addEventListener('change', (event) => {
+          // Obtenir le fichier sélectionné
+          const file = (event.target as HTMLInputElement).files?.[0];
+    
+          // Si un fichier est sélectionné
+          if (file) {
+            console.log(file)
+            const reader = new FileReader();
+    
+            reader.onload = () => {
+              // Convertir le contenu du fichier en objet JSON
+              try {
+                const jsonObject = JSON.parse(reader.result as string);
+                console.log(jsonObject)
+
+                this.tournament.title = jsonObject.title
+                this.tournament.icon = jsonObject.icon
+                this.tournament.entries = []
+                jsonObject.entries.forEach((element: any) => {
+                  let entry = new EntryDTO()
+                  entry.name = element.name
+                  entry.link = element.link
+                  this.tournament.entries.push(entry)
+                });
+
+              } catch (error) {
+                // Afficher une erreur si le contenu du fichier n'est pas un JSON valide
+                console.error('Le fichier n\'est pas un JSON valide', error);
+              }
+            };
+            reader.readAsText(file);
+
+          }
+        });
+    
+        // Ouvrir la boîte de dialogue de sélection de fichiers
+        fileInput.click();
+      
+  }
+
 
   updateElapsedTime() {
     if (this.lastlocalsave)
