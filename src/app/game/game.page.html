@@ -1,9 +1,6 @@
 <app-header [title]="tournamentPicked.title"></app-header>
 
 
-
-
-
 <ion-content [fullscreen]="true">
 	<ion-grid class="cardGrid" *ngIf="!ended">
 		<ion-row>
@@ -21,7 +18,8 @@
 						</ion-card-title>
 					</ion-card-header>
 					<ion-card-content>
-						<ion-img [src]="entryLeft.link"></ion-img>
+						<ion-img *ngIf="!isYoutubeVideo(entryLeft.link)" [src]="entryLeft.link"></ion-img>
+						<iframe *ngIf="isYoutubeVideo(entryLeft.link)" [src]="embedYoutubeVideo(entryLeft.link)" width="600" height="400"></iframe>
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
@@ -50,7 +48,8 @@
 						</ion-card-title>
 					</ion-card-header>
 					<ion-card-content>
-						<ion-img [src]="entryRight.link"></ion-img>
+						<ion-img *ngIf="!isYoutubeVideo(entryRight.link)" [src]="entryRight.link"></ion-img>
+						<iframe *ngIf="isYoutubeVideo(entryRight.link)" [src]="embedYoutubeVideo(entryRight.link)" width="600" height="400"></iframe>
 					</ion-card-content>
 				</ion-card>
 			</ion-col>

@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular';
 import { TournamentDTO } from '../shared/DTO/tournamentDTO';
 import { TournamentService } from '../services/tournament.service';
 import { UserComponent } from '../shared/user/user.component';
+import { DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-editor',
@@ -26,7 +27,7 @@ export class EditorPage implements OnInit {
   lastcloudsave: Date | null = null
   lastlocalsave: Date | null = null
 
-  constructor(private route: ActivatedRoute, private router: Router, rendererFactory: RendererFactory2, private tournamentService: TournamentService, private editorService: EditorService) {
+  constructor(private route: ActivatedRoute, private router: Router, rendererFactory: RendererFactory2, private tournamentService: TournamentService, private editorService: EditorService, private domSanitizer: DomSanitizer) {
     const id = this.route.snapshot.paramMap.get('id')!.toLocaleLowerCase();
     if (id == "new") {
       this.tournament = new TournamentDTO()
@@ -130,5 +131,13 @@ export class EditorPage implements OnInit {
     if (!await AppComponent.presentAlertPrompt("Deletion is permanent ! Are you sure ?"))
       return
     this.editorService.deleteTournament(this.tournament.id).subscribe((data) => { if (data) this.router.navigateByUrl('/editor') })
+  }
+
+  isYoutubeVideo(name: string) {
+    return name.startsWith("https://www.youtube.com/watch?")
+  }
+
+  embedYoutubeVideo(name: string) {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(name.replace("/watch?v=", "/embed/"))
   }
 }

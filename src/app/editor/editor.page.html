@@ -64,8 +64,10 @@
 			<ion-grid>
 				<ion-row>
 					<ion-col size="2">
-						<ion-img [src]="entry.link"
+						<ion-img *ngIf="!isYoutubeVideo(entry.link)" [src]="entry.link"
 							style="height: 160px;"></ion-img>
+						<iframe *ngIf="isYoutubeVideo(entry.link)" height="160" width="180"
+							[src]="embedYoutubeVideo(entry.link)"></iframe>
 					</ion-col>
 					<ion-col>
 						<ion-input [(ngModel)]="entry.name"

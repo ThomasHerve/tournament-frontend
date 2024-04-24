@@ -10,6 +10,7 @@ import { LobbyPage } from '../lobby/lobby.page';
 import { LobbyService } from '../services/lobby.service';
 import { PlayersCardComponent } from '../shared/players-card/players-card.component';
 import { UserComponent } from '../shared/user/user.component';
+import { DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-game',
@@ -36,7 +37,7 @@ export class GamePage implements OnInit, AfterViewInit {
 
   currentElement: EntryDTO | null = null
 
-  constructor(private route: ActivatedRoute, private lobbyService: LobbyService) {
+  constructor(private route: ActivatedRoute, private lobbyService: LobbyService, private domSanitizer: DomSanitizer) {
     const gameId = this.route.snapshot.paramMap.get('id');
 
   }
@@ -112,6 +113,14 @@ export class GamePage implements OnInit, AfterViewInit {
 
   closeModal() {
     this.resultModal?.dismiss()
+  }
+
+  isYoutubeVideo(name: string) {
+    return name.startsWith("https://www.youtube.com/watch?")
+  }
+
+  embedYoutubeVideo(name: string) {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(name.replace("/watch?v=", "/embed/"))
   }
 
 }
