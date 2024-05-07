@@ -55,6 +55,7 @@
 			</ion-col>
 		</ion-row>
 	</ion-grid>
+	<canvas id="myCanvas" [width]="canvasWidth" [height]="canvasHeight"></canvas>
 </ion-content>
 
 
@@ -70,7 +71,8 @@
 					<ion-button (click)="closeModal()">Close</ion-button>
 				</ion-buttons>
 			</ion-toolbar>
-			<img [src]="imageResult">
+			<img *ngIf="!isYoutubeVideo(imageResult || '')" [src]="imageResult">
+			<iframe *ngIf="isYoutubeVideo(imageResult || '')" [src]="embedYoutubeVideo(imageResult || '')" width="600" height="500"></iframe>
 		</ion-content>
 	</ng-template>
 </ion-modal>
