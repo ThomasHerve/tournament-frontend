@@ -20,7 +20,7 @@ import { UserComponent } from '../shared/user/user.component';
   imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent, PlayersCardComponent]
 })
 export class LobbyPage implements OnInit {
-  lobbyCode: string;
+  lobbyCode: string = "";
   username: string = "";
 
   tournamentList: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
@@ -31,18 +31,24 @@ export class LobbyPage implements OnInit {
   get isOwner() { return PlayersCardComponent.isOwner }
 
   constructor(private route: ActivatedRoute, private router: Router, private tournamentService: TournamentService, private lobbyService: LobbyService) {
-    const lobbyId = this.route.snapshot.paramMap.get('id');
-    if (lobbyId) {
-      this.lobbyCode = lobbyId
-      lobbyService.join(lobbyId, (value: any) => { console.log(value); if (value.id) this.retreiveTournamentPicked(value.tournament_id); else this.onLobbyDontExist() })
-    }
-    else {
-      this.lobbyCode = "Waiting for code ..."
-      PlayersCardComponent.isOwner = true;
-      lobbyService.create((value: any) => this.lobbyCode = value.id)
-    }
-    if (UserComponent.user)
-      this.username = UserComponent.user.username
+    this.route.params.subscribe(
+      params => {
+        const lobbyId = this.route.snapshot.paramMap.get('id');
+        if (lobbyId) {
+          this.lobbyCode = lobbyId
+          lobbyService.join(lobbyId, (value: any) => { console.log(value); if (value.id) this.retreiveTournamentPicked(value.tournament_id); else this.onLobbyDontExist() })
+        }
+        else {
+          lobbyService.leave()
+          this.lobbyCode = "Waiting for code ..."
+          PlayersCardComponent.isOwner = true;
+          lobbyService.create((value: any) => this.lobbyCode = value.id)
+        }
+        if (UserComponent.user)
+          this.username = UserComponent.user.username
+    
+      }
+  );
   }
 
   ionViewWillLeave() {
