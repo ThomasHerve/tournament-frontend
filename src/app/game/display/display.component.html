@@ -1,0 +1,4 @@
+<ion-card-content>
+    <ion-img *ngIf="!isYoutubeVideo" [src]="source"></ion-img>
+    <iframe *ngIf="isYoutubeVideo" [src]="embedYoutubeVideo(source)" width="600" height="400"></iframe>
+</ion-card-content>

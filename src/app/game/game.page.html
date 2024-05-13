@@ -18,8 +18,7 @@
 						</ion-card-title>
 					</ion-card-header>
 					<ion-card-content>
-						<ion-img *ngIf="!isYoutubeVideo(entryLeft.link)" [src]="entryLeft.link"></ion-img>
-						<iframe *ngIf="isYoutubeVideo(entryLeft.link)" [src]="embedYoutubeVideo(entryLeft.link)" width="600" height="400"></iframe>
+						<app-display [isYoutubeVideo]="isYoutubeVideo(entryLeft.link)" [source]="entryLeft.link"></app-display>
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
@@ -47,19 +46,13 @@
 							</ion-button>
 						</ion-card-title>
 					</ion-card-header>
-					<ion-card-content>
-						<ion-img *ngIf="!isYoutubeVideo(entryRight.link)" [src]="entryRight.link"></ion-img>
-						<iframe *ngIf="isYoutubeVideo(entryRight.link)" [src]="embedYoutubeVideo(entryRight.link)" width="600" height="400"></iframe>
-					</ion-card-content>
+					<app-display [isYoutubeVideo]="isYoutubeVideo(entryRight.link)" [source]="entryRight.link"></app-display>
 				</ion-card>
 			</ion-col>
 		</ion-row>
 	</ion-grid>
 	<canvas id="myCanvas" [width]="canvasWidth" [height]="canvasHeight"></canvas>
 </ion-content>
-
-
-
 
 
 <ion-modal #resultModal>

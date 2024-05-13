@@ -11,13 +11,14 @@ import { LobbyService } from '../services/lobby.service';
 import { PlayersCardComponent } from '../shared/players-card/players-card.component';
 import { UserComponent } from '../shared/user/user.component';
 import { DomSanitizer} from '@angular/platform-browser';
+import { DisplayComponent } from './display/display.component';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent, PlayersCardComponent]
+  imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent, PlayersCardComponent, DisplayComponent]
 })
 export class GamePage implements OnInit, AfterViewInit {
   @ViewChild('resultModal') resultModal: HTMLIonModalElement | undefined;
