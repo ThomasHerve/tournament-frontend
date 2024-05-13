@@ -60,7 +60,14 @@ export class LobbyPage implements OnInit {
   ngOnInit() {
     //Listeners
     this.lobbyService.listenTournament((value: any) => this.retreiveTournamentPicked(value.tournament_id))
-    this.lobbyService.listenStart(() => this.router.navigate(['/game/' + this.lobbyCode]));
+    //this.lobbyService.listenStart(() => this.router.navigate(['/game/' + this.lobbyCode ? this.lobbyCode : this.backupLobbyCode]));
+    this.lobbyService.listenStart(() => {
+      if(LobbyPage.tournamentPicked === null) {
+        LobbyPage.tournamentPicked = new TournamentDescriptorDTO()
+      }
+      this.router.navigate(['/game/' + this.lobbyCode])
+
+    });
 
     this.lobbyService.listenErrors(console.log)
 
