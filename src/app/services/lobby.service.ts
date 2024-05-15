@@ -68,8 +68,8 @@ export class LobbyService {
     this.socket.emit('changeName', { name: name })
   }
 
-  pickTournament(t: TournamentDescriptorDTO) {
-    this.socket.emit('setOptions', { tournament: { id: t.id } })
+  pickTournament(t: any, size: number) {
+    this.socket.emit('setOptions', { tournament: { id: t.id }, size: size })
   }
 
   leave() {

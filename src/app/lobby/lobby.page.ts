@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit, } from '@angular/core';
+import { Component, OnDestroy, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from '../app.component';
 import { CommonModule } from '@angular/common';
@@ -11,17 +11,21 @@ import { PlayersCardComponent } from '../shared/players-card/players-card.compon
 import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
 import { TournamentService } from '../services/tournament.service';
 import { UserComponent } from '../shared/user/user.component';
+import { PickerController } from '@ionic/angular';
 
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.page.html',
   styleUrls: ['./lobby.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent, PlayersCardComponent]
+  imports: [IonicModule, CommonModule, FormsModule, UserComponent, HeaderComponent, PlayersCardComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LobbyPage implements OnInit {
   lobbyCode: string = "";
   username: string = "";
+  selectedSize = 0
+  sizes: any = []
 
   tournamentList: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
   static tournamentPicked: TournamentDescriptorDTO | null = null;
@@ -30,7 +34,7 @@ export class LobbyPage implements OnInit {
 
   get isOwner() { return PlayersCardComponent.isOwner }
 
-  constructor(private route: ActivatedRoute, private router: Router, private tournamentService: TournamentService, private lobbyService: LobbyService) {
+  constructor(private route: ActivatedRoute, private router: Router, private tournamentService: TournamentService, private lobbyService: LobbyService, private pickerCtrl: PickerController) {
     this.route.params.subscribe(
       params => {
         const lobbyId = this.route.snapshot.paramMap.get('id');
@@ -49,6 +53,53 @@ export class LobbyPage implements OnInit {
     
       }
   );
+  }
+
+  async openPicker() {
+    const picker = await this.pickerCtrl.create({
+      columns: [
+        {
+          name: 'size',
+          options: this.sizes
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirm',
+          handler: (value) => {
+            this.selectedSize = value.size.value
+            this.lobbyService.pickTournament(this.tournamentPicked ,this.selectedSize)
+          }
+        }
+      ]
+    });
+    await picker.present();
+  }
+
+  generateSizes(size: number) {
+    const result: number[] = [];
+    let power = 2;
+    while (true) {
+        const value = Math.pow(2, power);
+        if (value > size) {
+            break;
+        }
+        result.push(value);
+        power += 1;
+        this.selectedSize = value
+    }
+    
+    this.sizes = []
+    result.forEach((v)=>{
+      this.sizes.push({
+        text: v,
+        value: v
+      })
+    })
   }
 
   ionViewWillLeave() {
@@ -72,11 +123,11 @@ export class LobbyPage implements OnInit {
     this.lobbyService.listenErrors(console.log)
 
     //Calls
-    this.tournamentService.getAllTournamentDescriptors().subscribe(value => this.tournamentList = value);
+    this.tournamentService.getAllTournamentDescriptors().subscribe(value => {
+      this.tournamentList = value
+    });
 
   }
-
-
 
   canActivate() {
     return true
@@ -84,7 +135,9 @@ export class LobbyPage implements OnInit {
 
   onSearchInput(event: any) {
     const searchTerm = event.target.value;
-    this.tournamentService.getAllTournamentDescriptorsWithFilters(searchTerm).subscribe(value => this.tournamentList = value);
+    this.tournamentService.getAllTournamentDescriptorsWithFilters(searchTerm).subscribe(value => {
+      this.tournamentList = value
+    });
   }
 
   onLobbyDontExist() {
@@ -93,10 +146,17 @@ export class LobbyPage implements OnInit {
   }
 
   pickTournament(t: TournamentDescriptorDTO) {
-    this.lobbyService.pickTournament(t)
+    this.lobbyService.pickTournament(t, this.selectedSize)
   }
   retreiveTournamentPicked(id: number) {
-    this.tournamentService.getTournamentById(id).subscribe(v => this.tournamentPicked = v)
+    this.tournamentService.getTournamentById(id).subscribe(v => {
+      console.log(this.tournamentPicked)
+      if(this.tournamentPicked == null || v.id != this.tournamentPicked.id) {
+        this.tournamentPicked = v
+        console.log(v)
+        this.generateSizes(v.entries.length)  
+      }
+    })
   }
 
   sendName() {

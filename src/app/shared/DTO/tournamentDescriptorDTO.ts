@@ -5,7 +5,7 @@ export class TournamentDescriptorDTO {
   description: string
   icon: string
   creator: string
-
+  entries: any
 
   constructor() {
     this.id = -1
