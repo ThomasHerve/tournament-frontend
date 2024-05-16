@@ -47,7 +47,6 @@ export class GamePage implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log("IN GAME")
     this.lobbyService.listenVotes(this.onVoteListener)
     this.lobbyService.listenEnd(this.onEndListener)
     this.canvasWidth = 0
@@ -95,7 +94,6 @@ export class GamePage implements OnInit, AfterViewInit {
     this.canvasWidth = window.innerWidth
     this.canvasHeight = 800
     this.end(value)
-    console.log(value)
   }
 
   vote(left: boolean) {

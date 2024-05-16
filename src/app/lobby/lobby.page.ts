@@ -38,6 +38,7 @@ export class LobbyPage implements OnInit {
     this.route.params.subscribe(
       params => {
         const lobbyId = this.route.snapshot.paramMap.get('id');
+        LobbyPage.tournamentPicked = null
         if (lobbyId) {
           this.lobbyCode = lobbyId
           lobbyService.join(lobbyId, (value: any) => { console.log(value); if (value.id) this.retreiveTournamentPicked(value.tournament_id); else this.onLobbyDontExist() })
@@ -81,6 +82,10 @@ export class LobbyPage implements OnInit {
   }
 
   generateSizes(size: number) {
+    if(size < 4) {
+      this.selectedSize = size
+      return
+    };
     const result: number[] = [];
     let power = 2;
     while (true) {
@@ -153,8 +158,8 @@ export class LobbyPage implements OnInit {
       console.log(this.tournamentPicked)
       if(this.tournamentPicked == null || v.id != this.tournamentPicked.id) {
         this.tournamentPicked = v
-        console.log(v)
-        this.generateSizes(v.entries.length)  
+        this.generateSizes(v.entries.length)
+        this.pickTournament(this.tournamentPicked)
       }
     })
   }
