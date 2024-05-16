@@ -74,6 +74,7 @@ export class LobbyService {
 
   leave() {
     this.socket.emit('leave')
+    this.socket.removeAllListeners()
   }
 
   launch() {
@@ -127,6 +128,8 @@ export class LobbyService {
   listenEnd(callbackFn: Function) {
     this.socket.on('end', callbackFn)
   }
+
+
   //#endregion
 
 }

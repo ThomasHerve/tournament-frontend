@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AppComponent } from '../app.component';
 import { CommonModule } from '@angular/common';
@@ -7,11 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../shared/header/header.component";
 import { IonicModule } from '@ionic/angular';
 import { LobbyService } from '../services/lobby.service';
+import { PickerController } from '@ionic/angular';
 import { PlayersCardComponent } from '../shared/players-card/players-card.component';
 import { TournamentDescriptorDTO } from '../shared/DTO/tournamentDescriptorDTO';
 import { TournamentService } from '../services/tournament.service';
 import { UserComponent } from '../shared/user/user.component';
-import { PickerController } from '@ionic/angular';
 
 @Component({
   selector: 'app-lobby',
@@ -41,19 +41,18 @@ export class LobbyPage implements OnInit {
         LobbyPage.tournamentPicked = null
         if (lobbyId) {
           this.lobbyCode = lobbyId
-          lobbyService.join(lobbyId, (value: any) => { console.log(value); if (value.id) this.retreiveTournamentPicked(value.tournament_id); else this.onLobbyDontExist() })
+          lobbyService.join(lobbyId, (value: any) => { if (value.id) this.retreiveTournamentPicked(value.tournament_id); else this.onLobbyDontExist() })
         }
         else {
-          lobbyService.leave()
           this.lobbyCode = "Waiting for code ..."
           PlayersCardComponent.isOwner = true;
           lobbyService.create((value: any) => this.lobbyCode = value.id)
         }
         if (UserComponent.user)
           this.username = UserComponent.user.username
-    
+
       }
-  );
+    );
   }
 
   async openPicker() {
@@ -73,7 +72,7 @@ export class LobbyPage implements OnInit {
           text: 'Confirm',
           handler: (value) => {
             this.selectedSize = value.size.value
-            this.lobbyService.pickTournament(this.tournamentPicked ,this.selectedSize)
+            this.lobbyService.pickTournament(this.tournamentPicked, this.selectedSize)
           }
         }
       ]
@@ -82,24 +81,24 @@ export class LobbyPage implements OnInit {
   }
 
   generateSizes(size: number) {
-    if(size < 4) {
+    if (size < 4) {
       this.selectedSize = size
       return
     };
     const result: number[] = [];
     let power = 2;
     while (true) {
-        const value = Math.pow(2, power);
-        if (value > size) {
-            break;
-        }
-        result.push(value);
-        power += 1;
-        this.selectedSize = value
+      const value = Math.pow(2, power);
+      if (value > size) {
+        break;
+      }
+      result.push(value);
+      power += 1;
+      this.selectedSize = value
     }
-    
+
     this.sizes = []
-    result.forEach((v)=>{
+    result.forEach((v) => {
       this.sizes.push({
         text: v,
         value: v
@@ -110,6 +109,8 @@ export class LobbyPage implements OnInit {
   ionViewWillLeave() {
     if (this.router.url.startsWith('/game'))
       return
+    console.log("Leave")
+
     this.lobbyService.leave()
   }
 
@@ -118,7 +119,7 @@ export class LobbyPage implements OnInit {
     this.lobbyService.listenTournament((value: any) => this.retreiveTournamentPicked(value.tournament_id))
     //this.lobbyService.listenStart(() => this.router.navigate(['/game/' + this.lobbyCode ? this.lobbyCode : this.backupLobbyCode]));
     this.lobbyService.listenStart(() => {
-      if(LobbyPage.tournamentPicked === null) {
+      if (LobbyPage.tournamentPicked === null) {
         LobbyPage.tournamentPicked = new TournamentDescriptorDTO()
       }
       this.router.navigate(['/game/' + this.lobbyCode])
@@ -155,8 +156,7 @@ export class LobbyPage implements OnInit {
   }
   retreiveTournamentPicked(id: number) {
     this.tournamentService.getTournamentById(id).subscribe(v => {
-      console.log(this.tournamentPicked)
-      if(this.tournamentPicked == null || v.id != this.tournamentPicked.id) {
+      if (this.tournamentPicked == null || v.id != this.tournamentPicked.id) {
         this.tournamentPicked = v
         this.generateSizes(v.entries.length)
         this.pickTournament(this.tournamentPicked)

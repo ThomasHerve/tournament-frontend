@@ -24,7 +24,7 @@ export class PlayersCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.lobbyService.observePlayers().subscribe(data => { this.players = data; console.log(data) })
+    this.lobbyService.observePlayers().subscribe(data => { this.players = data; })
     this.lobbyService.observeOwner().subscribe(() => PlayersCardComponent.isOwner = true)
   }
 
