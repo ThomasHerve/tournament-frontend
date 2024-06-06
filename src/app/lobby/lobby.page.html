@@ -58,8 +58,8 @@
 								</ion-item>
 							</ion-card-content>
 						</ion-card>
-						<ion-button (click)="openPicker()" *ngIf="tournamentPicked != null && selectedSize >= 4">Pick a size</ion-button>
-						<span *ngIf="tournamentPicked != null">Selected size: {{selectedSize}}</span> 	
+						<ion-button (click)="openPicker()" *ngIf="tournamentPicked != null && selectedSize >= 4 && isOwner">Pick a size</ion-button>
+						<span *ngIf="tournamentPicked != null && isOwner">Selected size: {{selectedSize}}</span> 	
 						<ion-button [disabled]="!isOwner"
 							(click)="launch()"
 							size="large"
