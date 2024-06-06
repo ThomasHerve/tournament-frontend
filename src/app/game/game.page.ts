@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -26,6 +27,8 @@ export class GamePage implements OnInit, AfterViewInit, OnDestroy {
   get tournamentPicked() { return LobbyPage.tournamentPicked! }
   get isOwner() { return PlayersCardComponent.isOwner }
 
+  private destroy$ = new Subject<void>();
+
   entryLeft: EntryDTO = new EntryDTO()
   entryRight: EntryDTO = new EntryDTO()
 
@@ -47,18 +50,21 @@ export class GamePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.lobbyService.listenVotes(this.onVoteListener)
-    this.lobbyService.listenEnd(this.onEndListener)
     this.canvasWidth = 0
     this.canvasHeight = 0
   }
 
   ngAfterViewInit() {
-    this.lobbyService.observeRound().subscribe(this.onRoundListener)
+    this.lobbyService.observeRound().pipe(takeUntil(this.destroy$)).subscribe(this.onRoundListener)
+    this.lobbyService.observeVote().pipe(takeUntil(this.destroy$)).subscribe(this.onVoteListener)
+    this.lobbyService.observeEnd().pipe(takeUntil(this.destroy$)).subscribe(this.onEndListener)
+
   }
 
   ngOnDestroy() {
     this.lobbyService.leave()
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onHasVotedListener = (confirmation: any) => {
@@ -89,7 +95,6 @@ export class GamePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onEndListener = (value: any) => {
-    console.log("END RECEIVED")
     this.ended = true;
     this.entryLeft = value
     this.entryRight = value.right

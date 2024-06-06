@@ -13,13 +13,18 @@ export class LobbyService {
   private playersSubject = new Subject<any>();
   private ownerSubject = new Subject<void>();
 
-  private roundSubject = new ReplaySubject<any>(1);
+  public roundSubject$ = new ReplaySubject<any>(1);
+  public voteSubject$ = new Subject<any>();
+  public endSubject$ = new Subject<any>();
 
 
   constructor(private socket: Socket) {
     this.listenPlayers((value: any) => this.playersSubject.next(value.players))
     this.listenOwner(() => this.ownerSubject.next())
-    this.listenRound((value: any) => this.roundSubject.next(value))
+    this.listenRound((value: any) => { this.roundSubject$.next(value) })
+    this.listenVotes((value: any) => { this.voteSubject$.next(value) })
+    this.listenEnd((value: any) => { this.endSubject$.next(value) })
+
   }
 
 
@@ -74,7 +79,6 @@ export class LobbyService {
 
   leave() {
     this.socket.emit('leave')
-    this.socket.removeAllListeners()
   }
 
   launch() {
@@ -118,7 +122,13 @@ export class LobbyService {
     this.socket.on("round", callbackFn)
   }
   observeRound() {
-    return this.roundSubject.asObservable()
+    return this.roundSubject$.asObservable()
+  }
+  observeVote() {
+    return this.voteSubject$.asObservable()
+  }
+  observeEnd() {
+    return this.endSubject$.asObservable()
   }
 
   listenVotes(callbackFn: Function) {
