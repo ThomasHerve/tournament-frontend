@@ -41,6 +41,8 @@ export class GamePage implements OnInit, AfterViewInit, OnDestroy {
   canvasWidth: number = 0
   canvasHeight: number = 0
 
+  currentRound: number = 0
+
   constructor(private route: ActivatedRoute, private lobbyService: LobbyService, private domSanitizer: DomSanitizer) {
     const gameId = this.route.snapshot.paramMap.get('id');
 
@@ -82,9 +84,12 @@ export class GamePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onRoundListener = (value: any) => {
+    console.log(value)
+    console.log(value.random)
     this.entryLeft = value.left
     this.entryRight = value.right
     this.hasVotedLeft = null
+    this.currentRound = value.round
     PlayersCardComponent.clearVotes()
   }
 
