@@ -24,6 +24,11 @@
 				local save : {{formatElapsedTime(lastlocalsave)}}
 			</ion-badge>
 		</ion-item>
+		<ion-item>
+			<ion-badge color="primary">
+				number of elements: {{tournament.entries.length}}
+			</ion-badge>
+		</ion-item>
 	</ion-buttons>
 	<ion-buttons slot="end">
 		<ion-button (click)="deleteTournament()">
