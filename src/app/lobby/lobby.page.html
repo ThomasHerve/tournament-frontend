@@ -1,9 +1,7 @@
 <app-header title="Welcome into the Lobby"></app-header>
-
 <ion-content [fullscreen]="true">
 	<ion-grid>
 		<ion-row>
-
 			<ion-col>
 				<ion-card class="cardContainer">
 					<ion-card-header>
@@ -34,7 +32,6 @@
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
-
 			<ion-col>
 				<ion-card class="cardContainer">
 					<ion-card-header>
@@ -58,8 +55,38 @@
 								</ion-item>
 							</ion-card-content>
 						</ion-card>
-						<ion-button (click)="openPicker()" *ngIf="tournamentPicked != null && selectedSize >= 4 && isOwner">Pick a size</ion-button>
-						<span *ngIf="tournamentPicked != null && isOwner">Selected size: {{selectedSize}}</span> 	
+						<ion-radio-group *ngIf="this.tournamentPicked"
+							[(ngModel)]="selectedSize"
+							(ionChange)="pickTournament(this.tournamentPicked)">
+							<ion-radio [disabled]="this.tournamentPicked.entries.length < 8"
+								[value]="8"
+								aria-label="8">
+								8
+							</ion-radio>
+							<ion-radio [disabled]="this.tournamentPicked.entries.length < 16"
+								[value]="16"
+								aria-label="16">
+								16
+							</ion-radio>
+							<ion-radio [disabled]="this.tournamentPicked.entries.length < 32"
+								[value]="32"
+								aria-label="32">
+								32
+							</ion-radio>
+							<ion-radio [disabled]="this.tournamentPicked.entries.length < 64"
+								[value]="64"
+								aria-label="64">
+								64
+							</ion-radio>
+							<ion-radio [disabled]="this.tournamentPicked.entries.length < 128"
+								[value]="128"
+								aria-label="128">
+								128
+							</ion-radio>
+						</ion-radio-group>
+						<span *ngIf="tournamentPicked !== null">
+							Tournament size: {{selectedSize}}
+						</span>
 						<ion-button [disabled]="!isOwner"
 							(click)="launch()"
 							size="large"
@@ -70,7 +97,6 @@
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
-
 			<ion-col>
 				<ion-card class="cardContainer">
 					<ion-card-header>
@@ -96,7 +122,6 @@
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
-
 		</ion-row>
 	</ion-grid>
 </ion-content>

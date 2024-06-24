@@ -24,8 +24,7 @@ import { UserComponent } from '../shared/user/user.component';
 export class LobbyPage implements OnInit {
   lobbyCode: string = "";
   username: string = "";
-  selectedSize = 0
-  sizes: any = []
+  selectedSize = 8
 
   tournamentList: TournamentDescriptorDTO[] = Array<TournamentDescriptorDTO>();
   static tournamentPicked: TournamentDescriptorDTO | null = null;
@@ -53,57 +52,6 @@ export class LobbyPage implements OnInit {
 
       }
     );
-  }
-
-  async openPicker() {
-    const picker = await this.pickerCtrl.create({
-      columns: [
-        {
-          name: 'size',
-          options: this.sizes
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Confirm',
-          handler: (value) => {
-            this.selectedSize = value.size.value
-            this.lobbyService.pickTournament(this.tournamentPicked, this.selectedSize)
-          }
-        }
-      ]
-    });
-    await picker.present();
-  }
-
-  generateSizes(size: number) {
-    if (size < 4) {
-      this.selectedSize = size
-      return
-    };
-    const result: number[] = [];
-    let power = 2;
-    while (true) {
-      const value = Math.pow(2, power);
-      if (value > size) {
-        break;
-      }
-      result.push(value);
-      power += 1;
-      this.selectedSize = value
-    }
-
-    this.sizes = []
-    result.forEach((v) => {
-      this.sizes.push({
-        text: v,
-        value: v
-      })
-    })
   }
 
   ionViewWillLeave() {
@@ -154,11 +102,11 @@ export class LobbyPage implements OnInit {
   pickTournament(t: TournamentDescriptorDTO) {
     this.lobbyService.pickTournament(t, this.selectedSize)
   }
+
   retreiveTournamentPicked(id: number) {
     this.tournamentService.getTournamentById(id).subscribe(v => {
       if (this.tournamentPicked == null || v.id != this.tournamentPicked.id) {
         this.tournamentPicked = v
-        this.generateSizes(v.entries.length)
         this.pickTournament(this.tournamentPicked)
       }
     })
