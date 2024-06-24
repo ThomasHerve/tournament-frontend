@@ -3,7 +3,7 @@
 		You need to be logged to build new content.
 	</ion-card-header>
 	<ion-card-header *ngIf="isUserLogged()">
-		Let's go create so new content !
+		Let's go create some new content !
 	</ion-card-header>
 	<ion-button [routerLink]="['/editor']"
 		[disabled]="!isUserLogged()"
