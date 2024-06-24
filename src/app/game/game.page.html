@@ -2,7 +2,8 @@
 
 
 <ion-content [fullscreen]="true">
-	<ion-grid class="cardGrid" *ngIf="!ended">
+	<ion-grid *ngIf="!ended"
+		class="cardGrid">
 		<ion-row>
 			<ion-col>
 				<ion-card>
@@ -18,7 +19,8 @@
 						</ion-card-title>
 					</ion-card-header>
 					<ion-card-content>
-						<app-display [isYoutubeVideo]="isYoutubeVideo(entryLeft.link)" [source]="entryLeft.link"></app-display>
+						<app-display [isYoutubeVideo]="isYoutubeVideo(entryLeft.link)"
+							[source]="entryLeft.link"></app-display>
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
@@ -46,12 +48,15 @@
 							</ion-button>
 						</ion-card-title>
 					</ion-card-header>
-					<app-display [isYoutubeVideo]="isYoutubeVideo(entryRight.link)" [source]="entryRight.link"></app-display>
+					<app-display [isYoutubeVideo]="isYoutubeVideo(entryRight.link)"
+						[source]="entryRight.link"></app-display>
 				</ion-card>
 			</ion-col>
 		</ion-row>
 	</ion-grid>
-	<canvas id="myCanvas" [width]="canvasWidth" [height]="canvasHeight"></canvas>
+	<canvas [width]="canvasWidth"
+		[height]="canvasHeight"
+		id="myCanvas"></canvas>
 </ion-content>
 
 
@@ -64,8 +69,12 @@
 					<ion-button (click)="closeModal()">Close</ion-button>
 				</ion-buttons>
 			</ion-toolbar>
-			<img *ngIf="!isYoutubeVideo(imageResult || '')" [src]="imageResult">
-			<iframe *ngIf="isYoutubeVideo(imageResult || '')" [src]="embedYoutubeVideo(imageResult || '')" width="600" height="500"></iframe>
+			<img *ngIf="!isYoutubeVideo(imageResult || '')"
+				[src]="imageResult">
+			<iframe *ngIf="isYoutubeVideo(imageResult || '')"
+				[src]="embedYoutubeVideo(imageResult || '')"
+				width="600"
+				height="500"></iframe>
 		</ion-content>
 	</ng-template>
 </ion-modal>

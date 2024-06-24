@@ -77,11 +77,11 @@ export class GamePage implements OnInit, AfterViewInit, OnDestroy {
 
   onVoteListener = (votes: any) => {
     if (votes.result === 'left') {
-      this.messageResult = this.entryLeft.name + " has win the match with " + votes.left + " votes (vs. " + votes.right + ")"
+      this.messageResult = votes.left + " (vs. " + votes.right + ") " + this.entryLeft.name + " has win the match"
       this.imageResult = this.entryLeft.link
     }
     else {
-      this.messageResult = this.entryRight.name + " has win the match with " + votes.right + " votes (vs. " + votes.left + ")"
+      this.messageResult = votes.right + " (vs. " + votes.left + ") " + this.entryRight.name + " has win the match"
       this.imageResult = this.entryRight.link
     }
 
